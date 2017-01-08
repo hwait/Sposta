@@ -44,8 +44,8 @@ class Command(BaseCommand):
                     linkm='http://www.oddsportal.com/ajax-sport-country-tournament/2/%s/X0/1' % cid
                     r2=requests.get(linkm)
                     if(r2.status_code == requests.codes.ok):
-                        with open("%s.json" % cid, "w") as f:
-                            f.write(r2.content)
+                        #with open("%s.json" % cid, "w") as f:
+                        #    f.write(r2.content)
                         for m1 in re.finditer(r'xeid="([^"]+)"><td class="table-time datet t(\d+)-1-1-0-0 "></td><td class="name table-participant" colspan="\d"><a[^>]+>([^<]+)</a></td>(<td class="center bold table-odds table-score">([^<]+)</td>)?<td class="odds-nowrp">', txt):
                             mid=m1.group(1)
                             dts=timezone.make_aware(datetime.datetime.utcfromtimestamp(float(m1.group(2))))
