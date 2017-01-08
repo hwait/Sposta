@@ -1,0 +1,28 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1>API STATS:</h1>
+    <div class="row">
+        <div class="col-md-4">Last time accessed :</div>
+        <div class="col-md-4">{{ last_time_data_taken }}</div>
+    </div>
+<h1>CRAWLER STATS:</h1>
+    <div class="row">
+        <div class="col-md-4">BF InPlay:</div>
+        <div class="col-md-1">{{ bfipc }}</div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">LS InPlay:</div>
+      <div class="col-md-1">{{ lsipc }}</div>
+    </div>
+<h1>LOGS:</h1>
+{% for log in logs %}
+    <div class="row">
+      <div class="col-md-2">{{ log.name }}</div>
+      <div class="col-md-4">{{ log.dts }}</div>
+      <div class="col-md-1">{{ log.counter }}</div>
+      <div class="col-md-1">{{ log.duration }}</div>
+    </div>
+{% endfor %}
+
+{% endblock %}

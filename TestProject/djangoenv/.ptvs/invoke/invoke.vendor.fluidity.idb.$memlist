@@ -1,0 +1,9 @@
+transition
+backwardscompat
+InvalidConfiguration
+StateMachine
+GuardNotSatisfied
+ForkedTransition
+machine
+state
+InvalidTransition

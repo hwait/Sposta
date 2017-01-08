@@ -1,0 +1,9 @@
+TestQuotedString
+psycopg2
+QuotingTestCase
+test_suite
+ConnectingTestCase
+testutils
+b
+sys
+unittest

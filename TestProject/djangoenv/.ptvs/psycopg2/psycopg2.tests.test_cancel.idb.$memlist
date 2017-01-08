@@ -1,0 +1,9 @@
+CancelTests
+dsn
+psycopg2
+threading
+skip_before_postgres
+test_suite
+extras
+ConnectingTestCase
+unittest

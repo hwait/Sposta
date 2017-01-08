@@ -1,0 +1,14 @@
+ScalarEvent
+DocumentEndEvent
+CollectionEndEvent
+NodeEvent
+SequenceStartEvent
+MappingStartEvent
+AliasEvent
+MappingEndEvent
+SequenceEndEvent
+DocumentStartEvent
+StreamStartEvent
+Event
+CollectionStartEvent
+StreamEndEvent

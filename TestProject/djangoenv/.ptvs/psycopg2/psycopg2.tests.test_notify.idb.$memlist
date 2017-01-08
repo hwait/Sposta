@@ -1,0 +1,13 @@
+Popen
+dsn
+script_to_py3
+psycopg2
+time
+PIPE
+extensions
+test_suite
+select
+ConnectingTestCase
+NotifiesTests
+sys
+unittest

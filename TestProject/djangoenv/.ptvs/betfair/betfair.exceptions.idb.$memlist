@@ -1,0 +1,5 @@
+NotLoggedIn
+ApiError
+LoginError
+BetfairError
+AuthError

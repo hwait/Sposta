@@ -1,0 +1,14 @@
+Popen
+skip_before_python
+os
+test_suite
+ConnectTestCase
+skip_before_postgres
+skip_copy_if_green
+script_to_py3
+ConnectingTestCase
+psycopg2
+ExceptionsTestCase
+TestExtensionModule
+sys
+unittest
