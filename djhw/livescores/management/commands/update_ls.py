@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from livescores.models import LSChamp,LSPlayer,LSEvent,LSGame,LSPoint
-from app.models import Log
+from main_app.models import ALog
 import datetime
 from django.utils import timezone
 import re
@@ -160,7 +160,7 @@ class Command(BaseCommand):
                     event.dtc=end
                     event.save()
         end=timezone.now()
-        log=Log()
+        log=ALog()
         log.name='update_ls'
         log.dts=start
         log.counter=self.counter

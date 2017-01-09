@@ -6,8 +6,8 @@ from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
 
-import app.forms
-import app.views
+import main_app.forms
+import main_app.views
 import sposta.views
 import oddsportal.views
 
@@ -18,14 +18,14 @@ import oddsportal.views
 
 urlpatterns = [
     # Examples:
-    url(r'^$', app.views.home, name='home'),
-    url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about', app.views.about, name='about'),
+    url(r'^$', main_app.views.home, name='home'),
+    url(r'^contact$', main_app.views.contact, name='contact'),
+    url(r'^about', main_app.views.about, name='about'),
     url(r'^login/$',
         django.contrib.auth.views.login,
         {
             'template_name': 'app/login.html',
-            'authentication_form': app.forms.BootstrapAuthenticationForm,
+            'authentication_form': main_app.forms.BootstrapAuthenticationForm,
             'extra_context':
             {
                 'title': 'Log in',

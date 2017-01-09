@@ -22,7 +22,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'app',
+    'main_app',
     'oddsportal',
     'sposta',
     'betfair_app',

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from oddsportal.models import OPMeet
-from app.models import Log
+from main_app.models import ALog
 import datetime
 from django.utils import timezone
 import re
@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         start=timezone.now()
-        log=Log()
+        log=ALog()
         log.name='update_op'
         log.dts=start
         log.save()

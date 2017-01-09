@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from app.models import Log
+from main_app.models import ALog
 from betfair_app.models import BFEvent
 from livescores.models import LSEvent
 from django.utils import timezone
@@ -9,7 +9,7 @@ import datetime
 class Stats(View):
     def get(self, request):
         params=dict()
-        logs=Log.objects.filter(dts__gt=timezone.now()-datetime.timedelta(hours=2)).order_by('-dts')
+        logs=ALog.objects.filter(dts__gt=timezone.now()-datetime.timedelta(hours=2)).order_by('-dts')
         params['logs']=logs
         #bfipc=BFEvent.objects.filter(bfodds__ip=True,bfodds__dtc__gt=timezone.now()-datetime.timedelta(minutes=30)).count()
         bfipc=BFEvent.objects.filter(dtc__gt=timezone.now()-datetime.timedelta(minutes=30)).count()

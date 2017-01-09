@@ -1,6 +1,6 @@
 from django.db import models
 
-class Log(models.Model):
+class ALog(models.Model):
     name = models.CharField(max_length=100)
     dts = models.DateTimeField()
     counter = models.IntegerField(null=True)

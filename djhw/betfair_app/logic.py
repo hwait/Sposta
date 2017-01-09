@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from betfair_app.models import BFChamp,BFPlayer,BFEvent,BFOdds
-from app.models import Log
+from main_app.models import ALog
 from datetime import datetime,timedelta
 from django.utils import timezone
 from betfair import Betfair
@@ -102,7 +102,7 @@ class BFCommand(BaseCommand):
                         self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid1,p1.replace('\\',''), p1b1_size,p1b1_odds,p1l1_size,p1l1_odds), ending='')
                         self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid2,p2.replace('\\',''), p2b1_size,p2b1_odds,p2l1_size,p2l1_odds), ending='')
         end=timezone.now()
-        log=Log()
+        log=ALog()
         log.name='update_bf_%s_%s' % (sport,ip)
         log.dts=start
         log.counter=counter
