@@ -1,0 +1,9 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1>Live Scores</h1>
+{% for champ in champs %}
+    <p><a href="{% url 'lsinspect' %}?cid={{ champ.id }}">{{ champ.name }}</a></p>
+{% endfor %}
+
+{% endblock %}

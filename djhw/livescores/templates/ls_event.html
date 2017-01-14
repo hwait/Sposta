@@ -1,0 +1,23 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<a href="{% url 'lsinspect' %}?cid={{event.cid.id}}">Back</a>
+<h2><small>{{ event.cid.name }}</small><br>{{ event.pid1.name }} - {{ event.pid2.name }}</h2>
+
+<div class="row">
+    <div class="col-md-3">Changed: {{ event.dtc|date:"d M, H:i:s" }}</div>
+</div>
+
+{% for game,points in games %}
+    <div class="row">
+        <div class="col-md-1">{{ game.setn }}</div>
+        <div class="col-md-1">{{ game.sc1 }}-{{ game.sc2 }}</div>
+        <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
+        <div class="col-md-8">
+            {% for p in points %}
+                {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

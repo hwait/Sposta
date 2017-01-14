@@ -1,0 +1,12 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<a href="{% url 'bfinspect' %}">Back</a>
+<h2>{{ champ }}</h2>
+    {% for event in events %}
+        <div class="row">
+          <div class="col-md-2">{{ event.dt|date:"d M, H:i:s" }}</div>
+          <div class="col-md-4"><a href="{% url 'bfinspect' %}?evid={{ event.id }}&isip=0">{{ event.pid1.name }} - {{ event.pid2.name }}</a></div>
+        </div>
+    {% endfor %}
+{% endblock %}

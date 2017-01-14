@@ -149,11 +149,14 @@ class Command(BaseCommand):
                         self.stdout.write('new game added %s\n' % game.id, ending='')
                     game.prewin=lastgamewon
                     game.dtc=end
+                    game.serve=serve
                     game.save()
                     event.dtc=end
                     event.save()
                 point, created = LSPoint.objects.get_or_create(gid=game, sc1=points1, sc2=points2)
                 if (created):
+                    point.dtc=end
+                    point.save()
                     game.prewin=lastgamewon
                     game.dtc=end
                     game.save()

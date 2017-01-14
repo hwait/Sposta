@@ -8,7 +8,9 @@ import django.contrib.auth.views
 
 import main_app.forms
 import main_app.views
+import betfair_app.views
 import sposta.views
+import livescores.views
 import oddsportal.views
 
 # Uncomment the next lines to enable the admin:
@@ -41,7 +43,9 @@ urlpatterns = [
         name='logout'),
     url(r'^op', oddsportal.views.Oddsportal.as_view()),
     url(r'^api/op', oddsportal.views.OddsportalApi.as_view()),
-    url(r'^sposta/stat', sposta.views.Stats.as_view()),
+    url(r'^sposta/stat', sposta.views.Stats.as_view(), name='stats'),
+    url(r'^livescores/inspect', livescores.views.Inspect.as_view(), name='lsinspect'),
+    url(r'^bf/inspect', betfair_app.views.Inspect.as_view(), name='bfinspect'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

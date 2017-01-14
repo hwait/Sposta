@@ -1,0 +1,10 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h2>{{ champ }}</h2>
+    {% for event in events %}
+        <div class="row">
+          <div class="col-md-4"><a href="{% url 'lsinspect' %}?evid={{ event.id }}&isip=0">{{ event.pid1.name }} - {{ event.pid2.name }}</a></div>
+        </div>
+    {% endfor %}
+{% endblock %}

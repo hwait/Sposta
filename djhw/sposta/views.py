@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.views import View
 from main_app.models import ALog
-from betfair_app.models import BFEvent
-from livescores.models import LSEvent
 from django.utils import timezone
 import datetime
+from django.db.models import Max
 
 class Stats(View):
     def get(self, request):

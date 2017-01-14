@@ -21,6 +21,7 @@ class LSGame(models.Model):
     setn=models.IntegerField()
     sc1=models.IntegerField()
     sc2=models.IntegerField()
+    serve=models.IntegerField(null=True)
     prewin=models.IntegerField(null=True)
     dtc = models.DateTimeField(null=True)
 

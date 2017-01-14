@@ -23,9 +23,10 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'bfinspect' %}">BF Inspect</a></li>
+                    <li><a href="{% url 'lsinspect' %}">LS Inspect</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'stats' %}">Stats</a></li>
                 </ul>
                 {% include 'app/loginpartial.html' %}
             </div>

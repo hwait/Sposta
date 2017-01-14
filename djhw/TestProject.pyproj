@@ -30,6 +30,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="betfair_app\viewmodel.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main_app\forms.py" />
     <Compile Include="main_app\models.py" />
     <Compile Include="main_app\tests.py" />
@@ -144,8 +147,10 @@
     <Folder Include="TestProject\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="betfair_app\templates\index.html" />
-    <Content Include="livescores\templates\index.html" />
+    <Content Include="betfair_app\templates\bf_champ.html" />
+    <Content Include="betfair_app\templates\bf_event.html" />
+    <Content Include="betfair_app\templates\bf_all.html" />
+    <Content Include="livescores\templates\ls_index.html" />
     <Content Include="oddsportal\templates\oddsportal.html" />
     <Content Include="requirements.txt" />
     <Content Include="main_app\static\app\content\bootstrap.css" />
@@ -176,7 +181,9 @@
     <Content Include="main_app\templates\app\layout.html" />
     <Content Include="main_app\templates\app\login.html" />
     <Content Include="main_app\templates\app\loginpartial.html" />
-    <Content Include="sposta\templates\index.html" />
+    <Content Include="livescores\templates\ls_event.html" />
+    <Content Include="livescores\templates\ls_champ.html" />
+    <Content Include="livescores\templates\ls_all.html" />
     <Content Include="sposta\templates\stats.html" />
   </ItemGroup>
   <ItemGroup>
