@@ -8,6 +8,8 @@
 *.sln.docstates
 *.pyc
 djhwenv/
+certs/
+settings.py
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

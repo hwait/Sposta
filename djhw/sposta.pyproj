@@ -2,8 +2,8 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <Name>TestProject</Name>
-    <RootNamespace>TestProject</RootNamespace>
+    <Name>sposta</Name>
+    <RootNamespace>sposta</RootNamespace>
     <InterpreterId>{88d5315d-653c-4adb-ac35-46a3942b067e}</InterpreterId>
     <InterpreterVersion>2.7</InterpreterVersion>
   </PropertyGroup>
@@ -97,23 +97,23 @@
     <Compile Include="oddsportal\tests.py" />
     <Compile Include="oddsportal\views.py" />
     <Compile Include="oddsportal\__init__.py" />
-    <Compile Include="sposta\admin.py" />
-    <Compile Include="sposta\apps.py" />
-    <Compile Include="sposta\design_data\data_op.py">
+    <Compile Include="sposta_app\admin.py" />
+    <Compile Include="sposta_app\apps.py" />
+    <Compile Include="sposta_app\design_data\data_op.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="sposta\migrations\__init__.py" />
-    <Compile Include="sposta\models.py" />
-    <Compile Include="sposta\tests.py" />
-    <Compile Include="sposta\views.py" />
+    <Compile Include="sposta_app\migrations\__init__.py" />
+    <Compile Include="sposta_app\models.py" />
+    <Compile Include="sposta_app\tests.py" />
+    <Compile Include="sposta_app\views.py" />
     <Compile Include="sposta\__init__.py" />
-    <Compile Include="TestProject\db_routers.py">
+    <Compile Include="sposta\db_routers.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TestProject\__init__.py" />
-    <Compile Include="TestProject\settings.py" />
-    <Compile Include="TestProject\urls.py" />
-    <Compile Include="TestProject\wsgi.py" />
+    <Compile Include="sposta_app\__init__.py" />
+    <Compile Include="sposta\settings.py" />
+    <Compile Include="sposta\urls.py" />
+    <Compile Include="sposta\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="main_app\" />
@@ -141,10 +141,11 @@
     <Folder Include="oddsportal\management\" />
     <Folder Include="oddsportal\templates\" />
     <Folder Include="sposta\" />
-    <Folder Include="sposta\migrations\" />
-    <Folder Include="sposta\design_data\" />
-    <Folder Include="sposta\templates\" />
-    <Folder Include="TestProject\" />
+    <Folder Include="sposta_app\" />
+    <Folder Include="sposta_app\migrations\" />
+    <Folder Include="sposta_app\design_data\" />
+    <Folder Include="sposta_app\templates\" />
+    <Folder Include="sposta_app\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="betfair_app\templates\bf_champ.html" />
@@ -184,7 +185,7 @@
     <Content Include="livescores\templates\ls_event.html" />
     <Content Include="livescores\templates\ls_champ.html" />
     <Content Include="livescores\templates\ls_all.html" />
-    <Content Include="sposta\templates\stats.html" />
+    <Content Include="sposta_app\templates\stats.html" />
   </ItemGroup>
   <ItemGroup>
     <None Include="readme.mht">
