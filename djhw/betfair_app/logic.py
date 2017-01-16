@@ -10,6 +10,7 @@ from django.conf import settings
 import requests
 
 class BFCommand(BaseCommand):
+    is_debug=True
     sports={ 'Soccer':1		
     ,'Tennis':2		
     ,'Golf':3		
@@ -86,18 +87,19 @@ class BFCommand(BaseCommand):
                 p2b1_size=b.runners[1].ex.available_to_back[0].size if len(b.runners[1].ex.available_to_back)>0 else 0
                 p2l1_odds=b.runners[1].ex.available_to_lay[0].price if len(b.runners[1].ex.available_to_lay)>0 else 0
                 p2l1_size=b.runners[1].ex.available_to_lay[0].size if len(b.runners[1].ex.available_to_lay)>0 else 0
-                self.stdout.write('*** evid [%s] %s - %s at %s, changed %s\n' % (event.id,event.pid1.name,event.pid2.name,event.dt,event.dtc), ending='')
+                if (self.is_debug):
+                    self.stdout.write('*** evid [%s] %s - %s at %s, changed %s\n' % (event.id,event.pid1.name,event.pid2.name,event.dt,event.dtc), ending='')
                 try:
                     odds= BFOdds.objects.filter(eid=event).latest('dtc')
                     if(odds.b1odds!=p1b1_odds or odds.b2odds!=p2b1_odds or odds.l1odds!=p1l1_odds or odds.l2odds!=p2l1_odds):
                         self.save_odds(event,p1b1_odds,p2b1_odds,p1l1_odds,p2l1_odds,p1b1_size,p2b1_size,p1l1_size,p2l1_size,is_ip)
-                        if (settings.DEBUG):
+                        if (self.is_debug):
                             self.stdout.write('evid[%s], mid[%s] %s %s - %s in %s: %s/%s\n' % (event_id,b.market_id, ds,p1.replace('\\',''),p2.replace('\\',''),country,b.total_matched,b.total_available), ending='')
                             self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid1,p1.replace('\\',''), p1b1_size,p1b1_odds,p1l1_size,p1l1_odds), ending='')
                             self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid2,p2.replace('\\',''), p2b1_size,p2b1_odds,p2l1_size,p2l1_odds), ending='')
                 except:
                     self.save_odds(event,p1b1_odds,p2b1_odds,p1l1_odds,p2l1_odds,p1b1_size,p2b1_size,p1l1_size,p2l1_size,is_ip)
-                    if (settings.DEBUG):
+                    if (self.is_debug):
                         self.stdout.write('evid[%s], mid[%s] %s %s - %s in %s: %s/%s\n' % (event_id,b.market_id, ds,p1.replace('\\',''),p2.replace('\\',''),country,b.total_matched,b.total_available), ending='')
                         self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid1,p1.replace('\\',''), p1b1_size,p1b1_odds,p1l1_size,p1l1_odds), ending='')
                         self.stdout.write('[%s]%s:%s@%s\t|%s@%s\n' % (rid2,p2.replace('\\',''), p2b1_size,p2b1_odds,p2l1_size,p2l1_odds), ending='')
@@ -108,13 +110,13 @@ class BFCommand(BaseCommand):
         log.counter=counter
         log.duration=(end-start).total_seconds()
         log.save()
-        if (settings.DEBUG):
+        if (self.is_debug):
             self.stdout.write('total execution is %s seconds\n' %(end-start), ending='')
 
     def save_champ(self,bfcid,name,sport,country_code):
         champ, created = BFChamp.objects.get_or_create(bfid=bfcid)
         if (created):
-            if (settings.DEBUG):
+            if (self.is_debug):
                 self.stdout.write('created a new champ, id=%s\n' % (champ.id), ending='')
                 champ.sport=sport
                 champ.name=name

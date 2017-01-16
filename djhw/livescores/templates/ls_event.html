@@ -11,9 +11,10 @@
 {% for game,points in games %}
     <div class="row">
         <div class="col-md-1">{{ game.setn }}</div>
-        <div class="col-md-1">{{ game.sc1 }}-{{ game.sc2 }}</div>
+        <div class="col-md-1">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</div>
+        <div class="col-md-1">{{ game.prewin }}</div>
         <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
-        <div class="col-md-8">
+        <div class="col-md-7">
             {% for p in points %}
                 {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
             {% endfor %}

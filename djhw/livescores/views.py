@@ -27,7 +27,7 @@ class Inspect(View):
                 params['games']=[]
                 games=LSGame.objects.filter(eid=event, setn__lt=6).order_by('dtc')
                 for g in games:
-                    points=LSPoint.objects.filter(gid=g).order_by('-dtc')
+                    points=LSPoint.objects.filter(gid=g).order_by('dtc')
                     params['games'].append([g,points])
                 template='ls_event.html'
             else:
