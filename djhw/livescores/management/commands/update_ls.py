@@ -155,17 +155,12 @@ class Command(BaseCommand):
                     game.save()
                     event.dtc=end
                     event.save()
-                point=LSPoint.objects.filter(gid=game).latest('dtc')
-                if (point.sc1!=points1 or point.sc2!=points2):
-                    point.sc1=points1
-                    point.sc2=points2
-                    point.dtc=end
-                    point.save()
-                    game.prewin=lastgamewon
-                    game.dtc=end
-                    game.save()
-                    event.dtc=end
-                    event.save()
+                try:
+                    point=LSPoint.objects.filter(gid=game).latest('dtc')
+                    if (point.sc1!=points1 or point.sc2!=points2):
+                        self.save_point(game,points1,points2,end, lastgamewon, event)
+                except:
+                    self.save_point(game,points1,points2,end, lastgamewon, event)
         end=timezone.now()
         log=ALog()
         log.name='update_ls'
@@ -178,6 +173,20 @@ class Command(BaseCommand):
         if (end-self.gstart).total_seconds()+self.timeout*3>=self.duration:
             self.timer.stop()
         self.counter+=1
+
+    def save_point(self, game,sc1,sc2,dtc, lastgamewon, event):
+        newpoint=LSPoint()
+        newpoint.gid=game
+        newpoint.sc1=sc1
+        newpoint.sc2=sc2
+        newpoint.dtc=dtc
+        newpoint.save()
+        game.prewin=lastgamewon
+        game.dtc=dtc
+        game.save()
+        event.dtc=dtc
+        event.save()
+
 
     def get_games(self, txt):
         p=txt.split('.')
