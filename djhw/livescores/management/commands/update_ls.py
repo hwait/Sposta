@@ -41,24 +41,35 @@ class Command(BaseCommand):
             for i in range(1, len(allzmena)):
                 zapas=allzmena[i].split('*')
                 status=''
-                pattern=re.compile(r'<a class="player" href="([^"]+)" target="_blank">([^<]+)')
-                self.stdout.write('zapas[2]=%s; zapas[3]=%s; \n'%(zapas[2],zapas[3]), ending='')
-                gr=pattern.search(zapas[2])
-                if gr==None:
+                cleared1=re.sub('<a[^>]+>','',zapas[2]).replace('</a>','')
+                cleared1=re.sub('\([^)]+\)','',cleared1)
+                cleared2=re.sub('<a[^>]+>','',zapas[3]).replace('</a>','')
+                cleared2=re.sub('\([^)]+\)','',cleared2)
+                if (self.is_debug):
+                    self.stdout.write('%s - %s, zapas[2]=%s; zapas[3]=%s; \n'%(cleared1,cleared2,zapas[2],zapas[3]), ending='')
+                if('/' in cleared1 and '/' in cleared2):
                     p1link=''
-                    p1=zapas[2]
+                    p2link=''
+                    p1=cleared1
+                    p2=cleared2
                 else:
-                    p1link=gr.group(1)
-                    p1=gr.group(2)
+                    pattern=re.compile(r'<a class="player" href="([^"]+)" target="_blank">([^<]+)')
+                    gr=pattern.search(zapas[2])
+                    if gr==None:
+                        p1link=''
+                        p1=zapas[2]
+                    else:
+                        p1link=gr.group(1)
+                        p1=gr.group(2)
                 #if (self.is_debug):
                 #    self.stdout.write('p1=%s,p1link=%s\n'%(p1,p1link), ending='')
-                gr=pattern.search(zapas[3])
-                if gr==None:
-                    p2link=''
-                    p2=zapas[3]
-                else:
-                    p2link=gr.group(1)
-                    p2=gr.group(2)
+                    gr=pattern.search(zapas[3])
+                    if gr==None:
+                        p2link=''
+                        p2=zapas[3]
+                    else:
+                        p2link=gr.group(1)
+                        p2=gr.group(2)
                 #if (self.is_debug):
                 #    self.stdout.write('p2=%s,p2link=%s\n'%(p2,p2link), ending='')
                 points1=int(zapas[7].replace('15','1').replace('30','2').replace('40','3').replace('A','4'))
@@ -90,19 +101,21 @@ class Command(BaseCommand):
                 champname=p[0].split('/')[1] +', '+ p[1]
                 if(zapas[20]=='Canc.'):
                     status='Canc.'
-                p=zapas[20].split()
-                if(len(p)>1):
-                    if(p[1]==8):
-                        status='Susp.'
-                    elif(p[1]==9):
-                        status='Postp.'
-                    zapas[20]=p[0]
+                    currentset=6
+                else:
+                    p=zapas[20].split()
+                    if(len(p)>1):
+                        if(p[1]==8):
+                            status='Susp.'
+                        elif(p[1]==9):
+                            status='Postp.'
+                        zapas[20]=p[0]
+                    currentset=int(zapas[20])
                 sets11,sets12=self.get_games(zapas[9]), self.get_games(zapas[10])
                 sets21,sets22=self.get_games(zapas[11]),self.get_games(zapas[12])
                 sets31,sets32=self.get_games(zapas[13]),self.get_games(zapas[14])
                 sets41,sets42=self.get_games(zapas[15]),self.get_games(zapas[16])
                 sets51,sets52=self.get_games(zapas[17]),self.get_games(zapas[18])
-                currentset=int(zapas[20])
                 self.stdout.write('zapas[5]=%s; zapas[6]=%s; \n'%(zapas[5],zapas[6]), ending='')
                 p=zapas[6].split('-')
                 if (len(p)<2):

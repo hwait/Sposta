@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from django.views import View
+from main_app.models import ALog
 from betfair_app.models import BFChamp,BFEvent,BFPlayer,BFOdds
 from django.utils import timezone
+from django.utils.timezone import localtime
 import datetime
 import plotly 
 from plotly.offline.offline import _plot_html
 from plotly.graph_objs import Scatter
+from django.core import serializers
+from django.http import JsonResponse
+from django.http import HttpResponse
 
 class Inspect(View):
     def get(self, request):
@@ -60,3 +65,30 @@ class Inspect(View):
                 champs=BFChamp.objects.filter(bfevent__isnull=False).distinct()
                 params['champs']=champs
         return render(request,template,params)
+
+class ApiGet(View):
+    def get(self, request):
+        params=dict()
+        try:
+            lastget=ALog.objects.filter(name='bf_get').latest('dts').dts
+        except:
+            lastget=timezone.make_aware(datetime.datetime(2016, 12, 31))
+        champs=BFChamp.objects.filter(lid=None)
+        players=BFPlayer.objects.filter(lid=None)
+        events=BFEvent.objects.filter(lid=None)
+        odds=BFOdds.objects.filter(dtc__gt=lastget)
+        response_data = {}
+        response_data['result'] = 'Success'
+        response_data['players'] = serializers.serialize('json', players)
+        response_data['champs'] = serializers.serialize('json', champs)
+        response_data['events'] = serializers.serialize('json', events)
+        response_data['odds'] = serializers.serialize('json', odds)
+
+        #try:
+        #    response_data['result'] = 'Success'
+        #    response_data['message'] = serializers.serialize('json', opmeet)
+        #except:
+        #    response_data['result'] = 'Error'
+        #    response_data['message'] = 'Script has not ran correctly'
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
+

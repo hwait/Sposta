@@ -43,6 +43,7 @@ urlpatterns = [
         name='logout'),
     url(r'^op', oddsportal.views.Oddsportal.as_view()),
     url(r'^api/op', oddsportal.views.OddsportalApi.as_view()),
+    url(r'^api/bf', betfair_app.views.ApiGet.as_view()),
     url(r'^sposta/stat', sposta_app.views.Stats.as_view(), name='stats'),
     url(r'^livescores/inspect', livescores.views.Inspect.as_view(), name='lsinspect'),
     url(r'^bf/inspect', betfair_app.views.Inspect.as_view(), name='bfinspect'),
