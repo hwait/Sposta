@@ -28,6 +28,7 @@ class BFEvent(models.Model):
     dtc = models.DateTimeField(null=True,db_index=True)
     dtip = models.DateTimeField(null=True)
     status = models.IntegerField(null=True) # 0 if ni, 1 if ip
+    reversed = models.IntegerField(null=True)
 
 class BFOdds(models.Model):
     eid=models.ForeignKey(BFEvent,db_index=True)

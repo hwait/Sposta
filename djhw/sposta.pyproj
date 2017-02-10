@@ -122,6 +122,8 @@
     <Folder Include="main_app\static\app\" />
     <Folder Include="main_app\static\app\content\" />
     <Folder Include="main_app\static\app\fonts\" />
+    <Folder Include="main_app\static\app\images\" />
+    <Folder Include="main_app\static\app\images\countries\" />
     <Folder Include="main_app\static\app\scripts\" />
     <Folder Include="main_app\templates\" />
     <Folder Include="main_app\templates\app\" />
@@ -152,6 +154,8 @@
     <Content Include="betfair_app\templates\bf_event.html" />
     <Content Include="betfair_app\templates\bf_all.html" />
     <Content Include="livescores\templates\ls_index.html" />
+    <Content Include="main_app\static\app\images\ATP.png" />
+    <Content Include="main_app\static\app\images\WTA.png" />
     <Content Include="oddsportal\templates\oddsportal.html" />
     <Content Include="requirements.txt" />
     <Content Include="main_app\static\app\content\bootstrap.css" />
@@ -185,6 +189,9 @@
     <Content Include="livescores\templates\ls_event.html" />
     <Content Include="livescores\templates\ls_champ.html" />
     <Content Include="livescores\templates\ls_all.html" />
+    <Content Include="sposta_app\templates\champs.html" />
+    <Content Include="sposta_app\templates\events.html" />
+    <Content Include="sposta_app\templates\selected.html" />
     <Content Include="sposta_app\templates\stats.html" />
   </ItemGroup>
   <ItemGroup>

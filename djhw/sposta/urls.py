@@ -12,7 +12,13 @@ import betfair_app.views
 import sposta_app.views
 import livescores.views
 import oddsportal.views
-
+from betfair_app.views import BFInspect, BFApiGet, BFApiIds,BFApiInfo
+from livescores.views import LSInspect, LSApiGet, LSApiIds
+from sposta_app.views import Stats,MainInspect, ApiBind
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+from django.conf.urls import include, url
 # Uncomment the next lines to enable the admin:
 # from django.conf.urls import include
 # from django.contrib import admin
@@ -43,13 +49,24 @@ urlpatterns = [
         name='logout'),
     url(r'^op', oddsportal.views.Oddsportal.as_view()),
     url(r'^api/op', oddsportal.views.OddsportalApi.as_view()),
-    url(r'^api/bf', betfair_app.views.ApiGet.as_view()),
-    url(r'^sposta/stat', sposta_app.views.Stats.as_view(), name='stats'),
-    url(r'^livescores/inspect', livescores.views.Inspect.as_view(), name='lsinspect'),
-    url(r'^bf/inspect', betfair_app.views.Inspect.as_view(), name='bfinspect'),
+    url(r'^api/bf/get', BFApiGet.as_view()),
+    url(r'^api/bf/ids', csrf_exempt(BFApiIds.as_view())),
+    url(r'^api/bf/info', BFApiInfo.as_view()),
+    url(r'^api/bind', csrf_exempt(ApiBind.as_view())),
+    url(r'^api/ls/get', LSApiGet.as_view()),
+    url(r'^api/ls/ids', csrf_exempt(LSApiIds.as_view())),
+    url(r'^sposta/stat', Stats.as_view(), name='stats'),
+    url(r'^livescores/inspect', LSInspect.as_view(), name='lsinspect'),
+    url(r'^bf/inspect', BFInspect.as_view(), name='bfinspect'),
+    url(r'^lines', MainInspect.as_view(), name='maininspect'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 ]
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__/', include(debug_toolbar.urls)),
+    ]

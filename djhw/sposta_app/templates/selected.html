@@ -1,0 +1,33 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<a href="{% url 'maininspect' %}?cid={{mevent.champ.id}}">Back</a>
+<h2><small>{{ mevent.champ.name }}</small><br>{{ mevent.p1.name }} - {{ mevent.p2.name }}</h2>
+<h4>{{ bfevent.reversed }} ID: {{ bfevent.id }}, MEID: {{ bfevent.meid }}: {{ bfevent.pid1.name }} - {{ bfevent.pid2.name }}</h4>
+<h4>{{ bfevent.reversed }} ID: {{ lsevent.id }}, MEID: {{ lsevent.meid }}: {{ lsevent.pid1.name }} - {{ lsevent.pid2.name }}</h4>
+<div class="row">
+    <div class="col-md-3">Scheduled: {{ bfevent.dt|date:"d M, H:i:s" }}</div>
+    <div class="col-md-3">Changed: {{ bfevent.dtc|date:"d M, H:i:s" }}</div>
+</div>
+<div class="row">
+    <div class="col-md-2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=0" class="btn btn-primary btn-lg{{isip0}}" role="button">Not In-Play</a></div>
+    <div class="col-md-2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=1" class="btn btn-primary btn-lg{{isip1}}" role="button">In-Play</a></div>
+</div>
+
+{{graph|safe}}
+
+{% for game,points in games %}
+    <div class="row">
+        <div class="col-md-1">{{ game.setn }}</div>
+        <div class="col-md-1">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</div>
+        <div class="col-md-1">{{ game.prewin }}</div>
+        <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
+        <div class="col-md-7">
+            {% for p in points %}
+                {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

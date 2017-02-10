@@ -12,7 +12,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.http import HttpResponse
 
-class Inspect(View):
+class BFInspect(View):
     def get(self, request):
         params=dict()
         template='bf_all.html'
@@ -66,29 +66,120 @@ class Inspect(View):
                 params['champs']=champs
         return render(request,template,params)
 
-class ApiGet(View):
+class BFApiGet(View):
     def get(self, request):
+        response_data = {}
+        start=timezone.now()
         params=dict()
         try:
-            lastget=ALog.objects.filter(name='bf_get').latest('dts').dts
+            dts=ALog.objects.filter(name='bf_get').latest('dts').dts
         except:
-            lastget=timezone.make_aware(datetime.datetime(2016, 12, 31))
+            dts=timezone.make_aware(datetime.datetime(2017, 1, 15))
+        dte=dts+datetime.timedelta(hours=1)
+        if(dte>start):
+            response_data['result'] = 'None'
+        else:
+            champs=BFChamp.objects.filter(lid=None)
+            players=BFPlayer.objects.filter(lid=None)
+            events=BFEvent.objects.filter(lid=None)
+            odds=BFOdds.objects.filter(dtc__gte=dts,dtc__lt=dte)
+            response_data['result'] = dte
+            if len(players)>0:
+                response_data['players'] = serializers.serialize('json', players)
+            if len(champs)>0:
+                response_data['champs'] = serializers.serialize('json', champs)
+            if len(events)>0:
+                response_data['events'] = serializers.serialize('json', events)
+            if len(odds)>0:
+                response_data['odds'] = serializers.serialize('json', odds)
+            dtd=dts-datetime.timedelta(days=7)
+            events=BFEvent.objects.filter(dtc__lt=dtd)
+            BFOdds.objects.filter(eid__in=events).delete()
+            events.delete()
+            log=ALog()
+            log.name='bf_get'
+            log.dts=dte
+            log.counter=len(odds)
+            log.duration=(timezone.now()-start).total_seconds()
+            log.save()
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
+
+class BFApiInfo(View):
+    def get(self, request):
+        response_data = {}
+        try:
+            dts=ALog.objects.filter(name='bf_get').latest('dts').dts
+        except:
+            dts=timezone.make_aware(datetime.datetime(2017, 1, 15))
         champs=BFChamp.objects.filter(lid=None)
         players=BFPlayer.objects.filter(lid=None)
         events=BFEvent.objects.filter(lid=None)
-        odds=BFOdds.objects.filter(dtc__gt=lastget)
-        response_data = {}
-        response_data['result'] = 'Success'
-        response_data['players'] = serializers.serialize('json', players)
-        response_data['champs'] = serializers.serialize('json', champs)
-        response_data['events'] = serializers.serialize('json', events)
-        response_data['odds'] = serializers.serialize('json', odds)
-
-        #try:
-        #    response_data['result'] = 'Success'
-        #    response_data['message'] = serializers.serialize('json', opmeet)
-        #except:
-        #    response_data['result'] = 'Error'
-        #    response_data['message'] = 'Script has not ran correctly'
+        #dte=dts+datetime.timedelta(hours=1)
+        #odds=BFOdds.objects.filter(dtc__gte=dts,dtc__lt=dte)
+        response_data['result'] = dts
+        if len(players)>0:
+            response_data['players'] = serializers.serialize('json', players)
+        if len(champs)>0:
+            response_data['champs'] = serializers.serialize('json', champs)
+        if len(events)>0:
+            response_data['events'] = serializers.serialize('json', events)
+        #if len(odds)>0:
+        #    response_data['dts'] = serializers.serialize('json', odds)
         return HttpResponse(JsonResponse(response_data), content_type="application/json")
+
+class BFApiIds(View):
+    def post(self, request):
+        params=dict()
+        pn=0
+        en=0
+        cn=0
+        res=''
+        if 'data' in request.POST:
+            parts=request.POST['data'].split('-')
+            for part in parts:
+                t=part[:1]
+                part=part.replace('c','').replace('p','').replace('e','')
+                ps=part.split('.')
+                for p in ps:
+                    if p=='': 
+                        continue
+                    did,lid=map(int,p.split(':'))
+                    if t=='c':
+                        champ=BFChamp.objects.get(id=did)
+                        champ.lid=lid
+                        champ.save()
+                    if t=='p':
+                        player=BFPlayer.objects.get(id=did)
+                        player.lid=lid
+                        player.save()
+                    if t=='e':
+                        event=BFEvent.objects.get(id=did)
+                        event.lid=lid
+                        event.save()
+                if t=='c':
+                    cn=len(ps)
+                if t=='p':
+                    pn=len(ps)
+                if t=='e':
+                    en=len(ps)
+            self.clear_old(timezone.make_aware(datetime.datetime(2017, 1, 17)))
+        else:
+            res='no data'
+        response_data = {}
+        response_data['result'] = res
+        response_data['players'] = pn
+        response_data['champs'] = cn
+        response_data['events'] = en
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
+    
+    def clear_old(self,start):
+        events=BFEvent.objects.filter(dtc__lt=start)
+        evn=events.count()
+        oddn=0
+        for ev in events:
+            odds=BFOdds.objects.filter(eid=ev)
+            oddn+=odds.count()
+            odds.delete()
+        events.delete()
+        return 'CLEARED: %s events, %s odds' % (evn,oddn)
 

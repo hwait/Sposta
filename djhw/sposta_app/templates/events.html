@@ -1,0 +1,19 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<br/>
+<a href="{% url 'maininspect' %}">Back</a>
+<h2>{{ champ.name }}</h2>
+<div class="col-md-1"><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></div>
+<div class="col-md-1">{{ champ.surface }}</div>
+<div class="col-md-1">{{ champ.prize }}</div>
+<div class="col-md-1">{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</div>
+<table class="table table-striped">
+    {% for event in events %}
+        <tr>
+          <td class="col-md-3">{{ event.dt|date:"d M, H:i:s" }}</td>
+          <td class="col-md-4"><a href="{% url 'maininspect' %}?evid={{ event.id }}&isip=0">{{ event.p1.name }} - {{ event.p2.name }}</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

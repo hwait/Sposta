@@ -1,0 +1,51 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1>Tennis moves</h1>
+<div class="table-responsive col-md-6">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th colspan="4"><div class="col-md-5"><img src="/static/app/images/atp.png"/></div></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for champ in atp %}
+        <tr>
+            <td colspan="4"><h4><a href="{% url 'maininspect' %}?cid={{ champ.id }}">{{ champ.name }}</a></h4></td>
+        </tr>
+            <tr>
+                <td class="col-md-1"><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></td>
+                <td class="col-md-1">{{ champ.surface }}</td>
+                <td class="col-md-1">{{ champ.prize }}</td>
+                <td class="col-md-1">{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="table-responsive col-md-6">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th colspan="4"><div class="col-md-5"><img src="/static/app/images/wta.png"/></div></th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for champ in wta %}
+        <tr>
+            <td colspan="4"><a href="{% url 'maininspect' %}?cid={{ champ.id }}"><h4>{{ champ.name }}</h4></a></td>
+        </tr>
+            <tr>
+                <td class="col-md-1"><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></td>
+                <td class="col-md-1">{{ champ.surface }}</td>
+                <td class="col-md-1">{{ champ.prize }}</td>
+                <td class="col-md-1">{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}

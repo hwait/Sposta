@@ -146,16 +146,13 @@ class Command(BaseCommand):
                     self.stdout.write('%30s%5s%5s%5s%5s%5s|%5s\n'%(p2,sets12,sets22,sets32,sets42,sets52,points2), ending='')
                     self.stdout.write('currentset=%s, lastgamewon=%s\n'%(currentset,lastgamewon), ending='')
                 end=timezone.now()
-                event, created = LSEvent.objects.get_or_create(lsid=eid)
+                champ=self.save_champ(champname,2)
+                player1=self.save_player(p1,gender1,p1link)
+                player2=self.save_player(p2,gender2,p2link)
+                event, created = LSEvent.objects.get_or_create(cid=champ,pid1=player1,pid2=player2)
                 if (created):
-                    champ=self.save_champ(champname,2)
-                    player1=self.save_player(p1,gender1,p1link)
-                    player2=self.save_player(p2,gender2,p2link)
                     if (self.is_debug):
                         self.stdout.write('new event [%s] added %s - %s, cid=%s\n' % (event.id,player1.id,player2.id,champ.id), ending='')
-                    event.cid=champ
-                    event.pid1=player1
-                    event.pid2=player2
                     event.dtc=end
                     event.save()
                 game, created = LSGame.objects.get_or_create(eid=event,setn=currentset, sc1=gsc1, sc2=gsc2)
