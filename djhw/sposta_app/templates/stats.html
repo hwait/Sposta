@@ -16,6 +16,19 @@
       <div class="col-md-1">{{ lsipc }}</div>
     </div>
 <h1>LOGS:</h1>
+{% for champ in bfchamps %}
+    <div class="row">
+      <div class="col-md-2">{{ champ.id }}</div>
+      <div class="col-md-4">{{ champ.name }}</div>
+    </div>
+{% endfor %}
+<br>
+{% for champ in lschamps %}
+    <div class="row">
+      <div class="col-md-2">{{ champ.id }}</div>
+      <div class="col-md-4">{{ champ.name }}</div>
+    </div>
+{% endfor %}
 {% for log in logs %}
     <div class="row">
       <div class="col-md-2">{{ log.name }}</div>

@@ -13,8 +13,9 @@ import sposta_app.views
 import livescores.views
 import oddsportal.views
 from betfair_app.views import BFInspect, BFApiGet, BFApiIds,BFApiInfo
+from oddsportal.views import OPInspect, OPApiGet, OPApiIds
 from livescores.views import LSInspect, LSApiGet, LSApiIds
-from sposta_app.views import Stats,MainInspect, ApiBind
+from sposta_app.views import Stats,MainInspect, ApiBind,ApiBindEvents
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -47,16 +48,18 @@ urlpatterns = [
             'next_page': '/',
         },
         name='logout'),
-    url(r'^op', oddsportal.views.Oddsportal.as_view()),
-    url(r'^api/op', oddsportal.views.OddsportalApi.as_view()),
     url(r'^api/bf/get', BFApiGet.as_view()),
     url(r'^api/bf/ids', csrf_exempt(BFApiIds.as_view())),
     url(r'^api/bf/info', BFApiInfo.as_view()),
+    url(r'^api/bindevents', csrf_exempt(ApiBindEvents.as_view())),
     url(r'^api/bind', csrf_exempt(ApiBind.as_view())),
     url(r'^api/ls/get', LSApiGet.as_view()),
     url(r'^api/ls/ids', csrf_exempt(LSApiIds.as_view())),
+    url(r'^api/op/get', OPApiGet.as_view()),
+    url(r'^api/op/ids', csrf_exempt(OPApiIds.as_view())),
     url(r'^sposta/stat', Stats.as_view(), name='stats'),
     url(r'^livescores/inspect', LSInspect.as_view(), name='lsinspect'),
+    url(r'^odds/inspect', OPInspect.as_view(), name='opinspect'),
     url(r'^bf/inspect', BFInspect.as_view(), name='bfinspect'),
     url(r'^lines', MainInspect.as_view(), name='maininspect'),
     # Uncomment the admin/doc line below to enable admin documentation:

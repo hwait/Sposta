@@ -1,0 +1,24 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<h2><small><a href="{% url 'bfinspect' %}?cid={{event.champ.id}}">{{ event.champ.name }}</a></small><br>{{ event.p1.name }} - {{ event.p2.name }}</h2>
+
+<div class="row">
+    <div class="col-md-3">Scheduled: {{ event.dt|date:"d M, H:i:s" }}</div>
+    <div class="col-md-3">Changed: {{ event.dtc|date:"d M, H:i:s" }}</div>
+</div>
+
+{{graph|safe}}
+
+{% for odds in oddschanges %}
+    <div class="row">
+        <div class="col-md-2">{{ odds.dtc|date:"d M, H:i:s" }}</div>
+        <div class="col-md-1">{{ odds.w1 }}</div>
+        <div class="col-md-1">{{ odds.w1max }}</div>
+        <div class="col-md-1">{{ odds.w2max }}</div>
+        <div class="col-md-1">{{ odds.w2 }}</div>
+    </div>
+{% endfor %}
+{% endblock %}

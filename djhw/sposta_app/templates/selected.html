@@ -2,32 +2,78 @@
 
 {% block content %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<a href="{% url 'maininspect' %}?cid={{mevent.champ.id}}">Back</a>
-<h2><small>{{ mevent.champ.name }}</small><br>{{ mevent.p1.name }} - {{ mevent.p2.name }}</h2>
-<h4>{{ bfevent.reversed }} ID: {{ bfevent.id }}, MEID: {{ bfevent.meid }}: {{ bfevent.pid1.name }} - {{ bfevent.pid2.name }}</h4>
-<h4>{{ bfevent.reversed }} ID: {{ lsevent.id }}, MEID: {{ lsevent.meid }}: {{ lsevent.pid1.name }} - {{ lsevent.pid2.name }}</h4>
-<div class="row">
-    <div class="col-md-3">Scheduled: {{ bfevent.dt|date:"d M, H:i:s" }}</div>
-    <div class="col-md-3">Changed: {{ bfevent.dtc|date:"d M, H:i:s" }}</div>
-</div>
-<div class="row">
-    <div class="col-md-2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=0" class="btn btn-primary btn-lg{{isip0}}" role="button">Not In-Play</a></div>
-    <div class="col-md-2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=1" class="btn btn-primary btn-lg{{isip1}}" role="button">In-Play</a></div>
-</div>
+<a href="{% url 'maininspect' %}?cid={{champ.id}}">Back</a>
+<table class="pull-right">
+    <tr><td colspan="4"><h2><small><a href="{% url 'maininspect' %}?cid={{champ.id}}">{{ champ.name }}</a></small></h2></td></tr>
+    <tr>
+        <td><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></td>
+        <td>{{ champ.surface }}</td>
+        <td>{{ champ.prize }}</td>
+        <td>{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</td>
+    </tr>
+    <tr>
+        <td colspan="2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=0" class="btn btn-primary btn-lg{{isip0}}" role="button">Not In-Play</a></td>
+        <td colspan="2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=1" class="btn btn-primary btn-lg{{isip1}}" role="button">In-Play</a></td>
+    </tr>
+    <tr>
+        <td colspan="4" class="text-center"><h2>{{ mevent.res }}</h2></td>
+    </tr>
+</table>
+<br>
+<table>
+    <tr>
+        <td rowspan="4" class="col-md-1"><img src="/static/app/images/players/{{ player1.mpid }}.jpg"/></td>
+        <td colspan="3"><h2>{{ player1.name }}</h2></td>
+        <td rowspan="4" class="col-md-1"><img src="/static/app/images/players/{{ player2.mpid }}.jpg"/></td>
+        <td class="col-md-2 text-center"> Scheduled:<br>{{ tscheduled|date:"d M, H:i" }}</td>
+    </tr>
+    <tr>
+        <td class="col-md-2"><img src="/static/app/images/countries/c{{ player1.cid }}.png"/></td>
+        <td rowspan="2" class="text-center"><h2>vs.</h2></td>
+        <td class="text-right col-md-2">{{ player2.db|date:"d M Y" }}</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="col-md-1">{{ player1.db|date:"d M Y" }}</td>
+        <td class="text-right"><img src="/static/app/images/countries/c{{ player2.cid }}.png"/></td>
+        <td class="text-center"> Completed:<br>{{ tcomplete|date:"d M, H:i:s" }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" class="text-right col-md-1"><h2>{{ player2.name }}</h2></td>
+        <td></td>
+    </tr>
+</table>
 
 {{graph|safe}}
 
-{% for game,points in games %}
-    <div class="row">
-        <div class="col-md-1">{{ game.setn }}</div>
-        <div class="col-md-1">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</div>
-        <div class="col-md-1">{{ game.prewin }}</div>
-        <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
-        <div class="col-md-7">
-            {% for p in points %}
-                {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
-            {% endfor %}
+{% if lsevent.reversed == 0 %}
+    {% for game,points in games %}
+        <div class="row">
+            <div class="col-md-1">{{ game.setn }}</div>
+            <div class="col-md-1">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</div>
+            <div class="col-md-1">{{ game.prewin }}</div>
+            <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
+            <div class="col-md-7">
+                {% for p in points %}
+                    {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
+                {% endfor %}
+            </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+{% endif %}
+{% if lsevent.reversed == 1 %}
+    {% for game,points in games %}
+        <div class="row">
+            <div class="col-md-1">{{ game.setn }}</div>
+            <div class="col-md-1">{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}-{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}</div>
+            <div class="col-md-1">{% if game.prewin == 1 %}2{% endif %}{% if game.prewin == 2 %}1{% endif %}</div>
+            <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
+            <div class="col-md-7">
+                {% for p in points %}
+                    {{p.sc2}}-{{p.sc1}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
 {% endblock %}

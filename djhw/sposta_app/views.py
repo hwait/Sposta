@@ -4,8 +4,9 @@ from main_app.models import ALog
 from sposta_app.models import MChamp, MPlayer,MEvent
 from betfair_app.models import BFChamp,BFEvent,BFPlayer,BFOdds
 from livescores.models import LSChamp,LSEvent,LSPlayer,LSGame,LSPoint
+from oddsportal.models import OPChamp,OPEvent,OPPlayer,OPOdds
 from django.utils import timezone
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.db.models import Max
 from betfair_app.models import BFEvent
 from livescores.models import LSEvent
@@ -20,14 +21,16 @@ from django.http import HttpResponse
 class Stats(View):
     def get(self, request):
         params=dict()
-        logs=ALog.objects.filter(dts__gt=timezone.now()-datetime.timedelta(hours=2)).order_by('-dts')
+        logs=ALog.objects.filter(dts__gt=timezone.now()-timedelta(hours=2)).order_by('-dts')
         params['logs']=logs
-        #bfipc=BFEvent.objects.filter(bfodds__ip=True,bfodds__dtc__gt=timezone.now()-datetime.timedelta(minutes=30)).count()
-        bfipc=BFEvent.objects.filter(dtc__gt=timezone.now()-datetime.timedelta(minutes=30)).count()
+        #bfipc=BFEvent.objects.filter(bfodds__ip=True,bfodds__dtc__gt=timezone.now()-timedelta(minutes=30)).count()
+        bfipc=BFEvent.objects.filter(dtc__gt=timezone.now()-timedelta(minutes=30)).count()
         params['bfipc']=bfipc
-        lsipc=LSEvent.objects.filter(dtc__gt=timezone.now()-datetime.timedelta(minutes=30)).count()
+        lsipc=LSEvent.objects.filter(dtc__gt=timezone.now()-timedelta(minutes=30)).count()
         params['lsipc']=lsipc
         params['last_time_data_taken']=timezone.now()
+        params['bfchamps']=BFChamp.objects.filter(bfevent__pk__isnull=True)
+        params['lschamps']=LSChamp.objects.filter(lsevent__pk__isnull=True)
         return render(request,'stats.html',params)
 
 class MainInspect(View):
@@ -37,14 +40,17 @@ class MainInspect(View):
         if request.method == 'GET':
             if 'cid' in request.GET:
                 cid=int(request.GET['cid'])
-                events=MEvent.objects.filter(champ__id=cid)
+                events=MEvent.objects.select_related('p1','p2').filter(champ__id=cid).order_by('-dt')
                 params['champ']=MChamp.objects.get(id=cid)
                 params['events']=events
                 template='events.html'
             if 'evid' in request.GET and 'isip' in request.GET:
                 meid=int(request.GET['evid'])
                 isip=request.GET['isip']=='1'
-                mevent=MEvent.objects.get(id=meid)
+                mevent=MEvent.objects.select_related('p1','p2','champ').get(id=meid)
+                params['champ']=mevent.champ
+                params['player1']=mevent.p1
+                params['player2']=mevent.p2
                 lsevent=LSEvent.objects.filter(meid=mevent.meid)
                 bfevent=BFEvent.objects.filter(meid=mevent.meid)
                 params['mevent']=mevent
@@ -59,7 +65,9 @@ class MainInspect(View):
                         params['games'].append([g,points])
                 if len(bfevent)==1:
                     bfev=bfevent[0]
-                    params['bfevent']=bfev
+                    params['tscheduled']=bfev.dt
+                    if mevent.res!='':
+                        params['tcomplete']=bfev.dtc
                     oddschanges=BFOdds.objects.filter(eid=bfev,ip=isip).order_by('dtc')
                     params['isip0']='' if isip else ' disabled'
                     params['isip1']=' disabled' if isip else ''
@@ -71,9 +79,17 @@ class MainInspect(View):
                     params['oddschanges']=oddschanges
                     plotly.tools.set_credentials_file(username='hwait', api_key='mYs3EJORl98E0vxkWvGr')
                     xr=[i.dtc for i in oddschanges]
-                    y1r=[i.b1odds for i in oddschanges]
-                    y2r=[i.b2odds for i in oddschanges]
-                    figure_or_data = [Scatter(x=xr, y=y1r,mode = 'lines',name = bfev.pid1.name),Scatter(x=xr, y=y2r,mode = 'lines',name = bfev.pid2.name)]
+                    if bfev.reversed==0:
+                        y1r=[i.b1odds for i in oddschanges]
+                        y2r=[i.b2odds for i in oddschanges]
+                        p1=bfev.pid1.name
+                        p2=bfev.pid2.name
+                    else:
+                        y2r=[i.b1odds for i in oddschanges]
+                        y1r=[i.b2odds for i in oddschanges]
+                        p2=bfev.pid1.name
+                        p1=bfev.pid2.name
+                    figure_or_data = [Scatter(x=xr, y=y1r,mode = 'lines',name = p1),Scatter(x=xr, y=y2r,mode = 'lines',name = p2)]
                     config = {}
                     config['showLink'] = False
                     plot_html = plot_html, plotdivid, width, height = _plot_html(
@@ -94,8 +110,8 @@ class MainInspect(View):
                 template='selected.html'
             else:
                 params['cid']=''
-                atp=MChamp.objects.filter(gender=1)
-                wta=MChamp.objects.filter(gender=0)
+                atp=MChamp.objects.filter(gender=1).order_by('name')
+                wta=MChamp.objects.filter(gender=0).order_by('name')
                 params['atp']=atp
                 params['wta']=wta
         return render(request,template,params)
@@ -107,10 +123,11 @@ class ApiBind(View):
         en=0
         cn=0
         res='Ok'
+        rawstr=request.body.decode('utf-8')
         if 'champs' in request.POST:
             mchamps=json.loads(request.POST['champs'])
             for mchamp in mchamps:
-                if BFChamp.objects.filter(id=int(mchamp['didbf'])).exists() or LSChamp.objects.filter(id=int(mchamp['didls'])).exists():
+                if BFChamp.objects.filter(id=int(mchamp['didbf'])).exists() or LSChamp.objects.filter(id=int(mchamp['didls'])).exists() or OPChamp.objects.filter(id=int(mchamp['didop'])).exists():
                     obj, created = MChamp.objects.get_or_create(mcid=int(mchamp['mcid']))
                     if (created):
                         obj.sport=2
@@ -128,14 +145,17 @@ class ApiBind(View):
                 if (created):
                     obj.gender=int(mplayer['gender'])
                     obj.name=mplayer['name']
-                    obj.save()
+                obj.cid=mplayer['cid']
+                obj.db=timezone.make_aware(datetime.strptime(mplayer['db'], '%Y-%m-%dT%H:%M:%S'))
+                obj.save()
         if 'events' in request.POST:
             mevents=json.loads(request.POST['events'])
             for mevent in mevents:
                 isbf=BFEvent.objects.filter(id=int(mevent['didbf'])).exists()
                 isls=LSEvent.objects.filter(id=int(mevent['didls'])).exists()
+                isop=OPEvent.objects.filter(id=int(mevent['didop'])).exists()
                 isch=MChamp.objects.filter(mcid=int(mevent['mcid'])).exists()
-                if isch and (isbf or isls):
+                if isch and (isbf or isls or isop):
                     champ=MChamp.objects.get(mcid=int(mevent['mcid']))
                     p1=MPlayer.objects.get(mpid=int(mevent['mpid1']))
                     p2=MPlayer.objects.get(mpid=int(mevent['mpid2']))
@@ -145,7 +165,8 @@ class ApiBind(View):
                         obj.p1=p1
                         obj.p2=p2
                         obj.dt=timezone.make_aware(datetime.strptime(mevent['dt'], '%Y-%m-%dT%H:%M:%S'))
-                        obj.save()
+                    obj.res=mevent['res']
+                    obj.save()
                     if isbf:
                         bf=BFEvent.objects.get(id=int(mevent['didbf']))
                         bf.reversed=int(mevent['revbf'])
@@ -156,9 +177,54 @@ class ApiBind(View):
                         ls.reversed=int(mevent['revls'])
                         ls.meid=int(mevent['meid'])
                         ls.save()
+                    if isop:
+                        op=OPEvent.objects.get(id=int(mevent['didop']))
+                        op.reversed=int(mevent['revop'])
+                        op.meid=int(mevent['meid'])
+                        op.save()
         else:
             res='no data'
         response_data = {}
         response_data['result'] = res
 
+        return HttpResponse(JsonResponse(response_data), content_type="application/json")
+
+class ApiBindEvents(View):
+    def post(self, request):
+        rawstr=request.body.decode('utf-8')
+        mevents=json.loads(rawstr)
+        for mevent in mevents:
+            isbf=BFEvent.objects.filter(id=int(mevent['didbf'])).exists()
+            isls=LSEvent.objects.filter(id=int(mevent['didls'])).exists()
+            isop=LSEvent.objects.filter(id=int(mevent['didop'])).exists()
+            isch=MChamp.objects.filter(mcid=int(mevent['mcid'])).exists()
+            if isch and (isbf or isls or isop):
+                champ=MChamp.objects.get(mcid=int(mevent['mcid']))
+                p1=MPlayer.objects.get(mpid=int(mevent['mpid1']))
+                p2=MPlayer.objects.get(mpid=int(mevent['mpid2']))
+                obj, created = MEvent.objects.get_or_create(meid=int(mevent['meid']))
+                if (created):
+                    obj.champ=champ
+                    obj.dt=timezone.make_aware(datetime.strptime(mevent['dt'], '%Y-%m-%dT%H:%M:%S'))
+                obj.res=mevent['res']
+                obj.p1=p1
+                obj.p2=p2
+                obj.save()
+                if isbf:
+                    bf=BFEvent.objects.get(id=int(mevent['didbf']))
+                    bf.reversed=int(mevent['revbf'])
+                    bf.meid=int(mevent['meid'])
+                    bf.save()
+                if isls:
+                    ls=LSEvent.objects.get(id=int(mevent['didls']))
+                    ls.reversed=int(mevent['revls'])
+                    ls.meid=int(mevent['meid'])
+                    ls.save()
+                if isop:
+                    op=LSEvent.objects.get(id=int(mevent['didop']))
+                    op.reversed=int(mevent['revop'])
+                    op.meid=int(mevent['meid'])
+                    op.save()
+        response_data = {}
+        response_data['result'] = '%s mevents inserted' % len(mevents)
         return HttpResponse(JsonResponse(response_data), content_type="application/json")

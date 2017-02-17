@@ -3,7 +3,7 @@ from django.views import View
 from main_app.models import ALog
 from livescores.models import LSChamp,LSEvent,LSPlayer, LSGame,LSPoint
 from django.utils import timezone
-import datetime
+from datetime import datetime, timedelta
 from django.db.models import Max
 from django.core import serializers
 from django.http import JsonResponse
@@ -16,7 +16,7 @@ class LSInspect(View):
         if request.method == 'GET':
             if 'cid' in request.GET:
                 cid=int(request.GET['cid'])
-                events=LSEvent.objects.filter(cid__id=cid)
+                events=LSEvent.objects.select_related('pid1','pid2').filter(cid__id=cid)
                 params['champ']=events[0].cid.name if len(events)>0 else ''
                 params['events']=events
                 template='ls_champ.html'
@@ -46,8 +46,8 @@ class LSApiGet(View):
         try:
             dts=ALog.objects.filter(name='ls_get').latest('dts').dts
         except:
-            dts=timezone.make_aware(datetime.datetime(2017, 1, 15))
-        dte=dts+datetime.timedelta(hours=1)
+            dts=timezone.make_aware(datetime(2017, 1, 15))
+        dte=dts+timedelta(hours=1)
         if(dte>start):
             response_data['result'] = 'None'
         else:
@@ -68,12 +68,12 @@ class LSApiGet(View):
                 response_data['games'] = serializers.serialize('json', games)
             if len(points)>0:
                 response_data['points'] = serializers.serialize('json', points)
-            dtd=start-datetime.timedelta(days=7)
-            events=LSEvent.objects.filter(dtc__lt=dtd)
-            games=LSGame.objects.filter(eid__in=events)
-            LSPoint.objects.filter(gid__in=games).delete()
-            games.delete()
-            events.delete()
+            #dtd=start-timedelta(days=7)
+            #events=LSEvent.objects.filter(dtc__lt=dtd)
+            #games=LSGame.objects.filter(eid__in=events)
+            #LSPoint.objects.filter(gid__in=games).delete()
+            #games.delete()
+            #events.delete()
             log=ALog()
             log.name='ls_get'
             log.dts=dte
@@ -118,9 +118,9 @@ class LSApiIds(View):
                     pn=len(ps)
                 if t=='e':
                     en=len(ps)
-            self.clear_old(timezone.make_aware(datetime.datetime(2017, 1, 17)))
         else:
             res='no data'
+        res=self.clear_old(timezone.now()-timedelta(days=7))
         response_data = {}
         response_data['result'] = res
         response_data['players'] = pn
@@ -142,4 +142,7 @@ class LSApiIds(View):
                 points.delete()
             games.delete()
         events.delete()
-        return 'CLEARED: %s events, %s games and %s points' % (evn,gn,pn)
+        lschamps=LSChamp.objects.filter(lsevent__pk__isnull=True)
+        lscn=lschamps.count()
+        lschamps.delete()
+        return 'CLEARED: %s champs, %s events, %s games and %s points' % (lscn, evn,gn,pn)

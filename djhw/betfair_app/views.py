@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.views import View
 from main_app.models import ALog
 from betfair_app.models import BFChamp,BFEvent,BFPlayer,BFOdds
+from sposta_app.models import MChamp,MEvent
 from django.utils import timezone
 from django.utils.timezone import localtime
-import datetime
+from datetime import datetime, timedelta
 import plotly 
 from plotly.offline.offline import _plot_html
 from plotly.graph_objs import Scatter
@@ -19,7 +20,7 @@ class BFInspect(View):
         if request.method == 'GET':
             if 'cid' in request.GET:
                 cid=int(request.GET['cid'])
-                events=BFEvent.objects.filter(cid__id=cid)
+                events=BFEvent.objects.select_related('pid1','pid2').filter(cid__id=cid)
                 params['champ']=events[0].cid.name if len(events)>0 else ''
                 params['events']=events
                 template='bf_champ.html'
@@ -74,8 +75,8 @@ class BFApiGet(View):
         try:
             dts=ALog.objects.filter(name='bf_get').latest('dts').dts
         except:
-            dts=timezone.make_aware(datetime.datetime(2017, 1, 15))
-        dte=dts+datetime.timedelta(hours=1)
+            dts=timezone.make_aware(datetime(2017, 1, 15))
+        dte=dts+timedelta(hours=1)
         if(dte>start):
             response_data['result'] = 'None'
         else:
@@ -92,10 +93,10 @@ class BFApiGet(View):
                 response_data['events'] = serializers.serialize('json', events)
             if len(odds)>0:
                 response_data['odds'] = serializers.serialize('json', odds)
-            dtd=dts-datetime.timedelta(days=7)
-            events=BFEvent.objects.filter(dtc__lt=dtd)
-            BFOdds.objects.filter(eid__in=events).delete()
-            events.delete()
+            #dtd=dts-timedelta(days=7)
+            #events=BFEvent.objects.filter(dtc__lt=dtd)
+            #BFOdds.objects.filter(eid__in=events).delete()
+            #events.delete()
             log=ALog()
             log.name='bf_get'
             log.dts=dte
@@ -110,11 +111,11 @@ class BFApiInfo(View):
         try:
             dts=ALog.objects.filter(name='bf_get').latest('dts').dts
         except:
-            dts=timezone.make_aware(datetime.datetime(2017, 1, 15))
+            dts=timezone.make_aware(datetime(2017, 1, 15))
         champs=BFChamp.objects.filter(lid=None)
         players=BFPlayer.objects.filter(lid=None)
         events=BFEvent.objects.filter(lid=None)
-        #dte=dts+datetime.timedelta(hours=1)
+        #dte=dts+timedelta(hours=1)
         #odds=BFOdds.objects.filter(dtc__gte=dts,dtc__lt=dte)
         response_data['result'] = dts
         if len(players)>0:
@@ -162,9 +163,9 @@ class BFApiIds(View):
                     pn=len(ps)
                 if t=='e':
                     en=len(ps)
-            self.clear_old(timezone.make_aware(datetime.datetime(2017, 1, 17)))
         else:
             res='no data'
+        res=self.clear_old(timezone.now()-timedelta(days=7))
         response_data = {}
         response_data['result'] = res
         response_data['players'] = pn
@@ -181,5 +182,14 @@ class BFApiIds(View):
             oddn+=odds.count()
             odds.delete()
         events.delete()
-        return 'CLEARED: %s events, %s odds' % (evn,oddn)
+        bfchamps=BFChamp.objects.filter(bfevent__pk__isnull=True)
+        bfcn=bfchamps.count()
+        bfchamps.delete()
+        mevents=MEvent.objects.filter(dt__lt=start)
+        mevn=mevents.count()
+        mevents.delete()
+        mchamps=MChamp.objects.filter(mevent__pk__isnull=True)
+        mcn=mchamps.count()
+        mchamps.delete()
+        return 'CLEARED: %s champs, %s events, %s odds, %s mchamps, %s mevents' % (bfcn,evn,oddn, mcn, mevn)
 

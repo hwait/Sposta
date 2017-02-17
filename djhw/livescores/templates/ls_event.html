@@ -5,7 +5,7 @@
 <h2><small>{{ event.cid.name }}</small><br>{{ event.pid1.name }} - {{ event.pid2.name }}</h2>
 
 <div class="row">
-    <div class="col-md-3">Changed: {{ event.dtc|date:"d M, H:i:s" }}</div>
+    <div class="col-md-3">Changed: {{ event.dtc|date:"d M, H:i:s" }} IsReversed: {{ event.reversed }}</div>
 </div>
 
 {% for game,points in games %}
@@ -21,4 +21,5 @@
         </div>
     </div>
 {% endfor %}
+
 {% endblock %}

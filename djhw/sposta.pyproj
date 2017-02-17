@@ -156,7 +156,9 @@
     <Content Include="livescores\templates\ls_index.html" />
     <Content Include="main_app\static\app\images\ATP.png" />
     <Content Include="main_app\static\app\images\WTA.png" />
-    <Content Include="oddsportal\templates\oddsportal.html" />
+    <Content Include="oddsportal\templates\op_all.html" />
+    <Content Include="oddsportal\templates\op_champ.html" />
+    <Content Include="oddsportal\templates\op_event.html" />
     <Content Include="requirements.txt" />
     <Content Include="main_app\static\app\content\bootstrap.css" />
     <Content Include="main_app\static\app\content\bootstrap.min.css" />

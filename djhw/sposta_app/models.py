@@ -13,11 +13,14 @@ class MChamp(models.Model):
 class MPlayer(models.Model):
     mpid = models.IntegerField(null=True,db_index=True)
     name=models.CharField(max_length=100,db_index=True)
+    db = models.DateTimeField(null=True)
+    cid = models.IntegerField(null=True)
     gender = models.IntegerField(null=True) # filled with a binding
 
 class MEvent(models.Model):
     meid = models.IntegerField(null=True,db_index=True)
     champ=models.ForeignKey(MChamp,null=True,db_index=True)
+    res=models.CharField(max_length=50,null=True)
     p1=models.ForeignKey(MPlayer, related_name='mplayer1',null=True,db_index=True)
     p2=models.ForeignKey(MPlayer, related_name='mplayer2',null=True,db_index=True)
     dt = models.DateTimeField(null=True,db_index=True)

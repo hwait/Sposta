@@ -1,0 +1,9 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<h1>Oddportal</h1>
+{% for champ in champs %}
+    <p><a href="{% url 'opinspect' %}?cid={{ champ.id }}">{{ champ.name }} ({{champ.country}})</a></p>
+{% endfor %}
+
+{% endblock %}

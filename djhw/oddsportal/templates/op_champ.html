@@ -1,0 +1,12 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<br>
+<h2><a href="{% url 'opinspect' %}?cid={{ champ.id }}">{{ champ.name }} ({{champ.country}})</a></h2>
+    {% for event in events %}
+        <div class="row">
+          <div class="col-md-2">{{ event.dt|date:"d M, H:i:s" }}</div>
+          <div class="col-md-4"><a href="{% url 'opinspect' %}?evid={{ event.id }}">{{ event.p1.name }} - {{ event.p2.name }}</a></div>
+        </div>
+    {% endfor %}
+{% endblock %}
