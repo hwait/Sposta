@@ -137,7 +137,7 @@ class Command(BaseCommand):
                 elif currentset==5:
                     gsc1=sets51
                     gsc2=sets52
-                elif currentset==6:
+                else:
                     gsc1=0
                     gsc2=0
                 if (self.is_debug):

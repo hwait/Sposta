@@ -12,8 +12,14 @@
         <td>{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</td>
     </tr>
     <tr>
-        <td colspan="2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=0" class="btn btn-primary btn-lg{{isip0}}" role="button">Not In-Play</a></td>
-        <td colspan="2"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&isip=1" class="btn btn-primary btn-lg{{isip1}}" role="button">In-Play</a></td>
+        <td colspan="4">
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=0" class="btn btn-primary btn-lg{{setn0}}" role="button">Not In-Play</a>
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=1" class="btn btn-primary btn-lg{{setn1}}" role="button">1</a>
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=2" class="btn btn-primary btn-lg{{setn2}}" role="button">2</a>
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=3" class="btn btn-primary btn-lg{{setn3}}" role="button">3</a>
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=4" class="btn btn-primary btn-lg{{setn4}}" role="button">4</a>
+            <a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn=5" class="btn btn-primary btn-lg{{setn5}}" role="button">5</a>
+        </td>
     </tr>
     <tr>
         <td colspan="4" class="text-center"><h2>{{ mevent.res }}</h2></td>

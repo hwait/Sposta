@@ -1,7 +1,6 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
-<h1>Tennis moves</h1>
 <div class="table-responsive col-md-6">
     <table class="table table-striped">
         <thead>
@@ -28,7 +27,7 @@
         <tbody>
             {% for champ in wta %}
         <tr>
-            <td><a href="{% url 'maininspect' %}?cid={{ champ.id }}"><h3>{{ champ.name }}</h3></a></td>
+            <td><a href="{% url 'maininspect' %}?cid={{ champ.id }}"><h4>{{ champ.name }}</h4></a></td>
         </tr>
             {% endfor %}
         </tbody>

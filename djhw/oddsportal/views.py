@@ -148,8 +148,8 @@ class OPApiIds(View):
         events=OPEvent.objects.filter(dtc__lt=start)
         evn=events.count()
         oddn=0
-        for ev in events:
-            odds=OPOdds.objects.filter(eid=ev)
+        for event in events:
+            odds=OPOdds.objects.filter(ev=event)
             oddn+=odds.count()
             odds.delete()
         events.delete()

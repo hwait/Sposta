@@ -12,7 +12,7 @@
         <tr>
             <td class="col-md-1">{{ event.dt|date:"d M" }}</td>
             <td class="col-md-1">{{ event.res }}</td>
-            <td class="col-md-5"><a href="{% url 'maininspect' %}?evid={{ event.id }}&isip=0">{{ event.p1.name }} - {{ event.p2.name }}</a></td>
+            <td class="col-md-5"><a href="{% url 'maininspect' %}?evid={{ event.id }}&sn=0">{{ event.p1.name }} - {{ event.p2.name }}</a></td>
         </tr>
     {% endfor %}
 </table>

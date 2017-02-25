@@ -39,7 +39,7 @@ class BFCommand(BaseCommand):
         start=timezone.now()
         ip='ip' if is_ip else 'ni'
         
-        client = Betfair('uv9hV1EjlFimHmgr', 'certs/bf.pem')
+        client = Betfair('GkhXY3b3KmncnwLe', 'certs/bf.pem')
         client.login('sherst', 'osT1G11nRe35')
         client.keep_alive()
         tennis_event_type = self.sports[sport]

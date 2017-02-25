@@ -95,7 +95,7 @@ class Command(BaseCommand):
                                 meet.dtc=timezone.now()
                                 meet.save()
                             try:
-                                odds=OPOdds.objects.filter(event=meet).latest('dtc')
+                                odds=OPOdds.objects.filter(ev=meet).latest('dtc')
                                 if (odds.w1!=w1 or odds.w1max!=w1m or odds.w2!=w2 or odds.w2max!=w2m):
                                     if (self.is_debug):
                                         self.stdout.write('updated #%s, w1(%s->%s), w1m(%s->%s), w2(%s->%s), w2m(%s->%s)\n' % (odds.id,odds.w1,w1,odds.w1max,w1m,odds.w2,w2,odds.w2max,w2m), ending='')
