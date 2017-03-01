@@ -6,6 +6,7 @@
     <RootNamespace>sposta</RootNamespace>
     <InterpreterId>{88d5315d-653c-4adb-ac35-46a3942b067e}</InterpreterId>
     <InterpreterVersion>2.7</InterpreterVersion>
+    <WebBrowserPort>64001</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -18,7 +19,7 @@
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
-    <LaunchProvider>Django launcher</LaunchProvider>
+    <LaunchProvider>Web launcher</LaunchProvider>
     <OutputPath>.</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -193,6 +194,7 @@
     <Content Include="livescores\templates\ls_all.html" />
     <Content Include="sposta_app\templates\champs.html" />
     <Content Include="sposta_app\templates\events.html" />
+    <Content Include="sposta_app\templates\sets.html" />
     <Content Include="sposta_app\templates\selected.html" />
     <Content Include="sposta_app\templates\stats.html" />
   </ItemGroup>

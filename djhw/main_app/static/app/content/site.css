@@ -40,3 +40,11 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.games-menu {
+    position: relative;
+    bottom: 400px;
+    left: 440px;
+    max-width: 190px;
+}
+

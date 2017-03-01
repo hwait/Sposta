@@ -4,7 +4,7 @@
 <br/>
 <h2><a href="{% url 'maininspect' %}">{{ champ.name }}</a></h2>
 <div class="col-md-1"><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></div>
-<div class="col-md-1">{{ champ.surface }}</div>
+<div class="col-md-1"><img src="/static/app/images/court{{ champ.surface }}.png" height="36"/></div>
 <div class="col-md-1">{{ champ.prize }}</div>
 <div class="col-md-1">{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</div>
 <table class="table table-striped">

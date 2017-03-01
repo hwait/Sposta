@@ -11,7 +11,7 @@
         <tbody>
             {% for champ in atp %}
         <tr>
-            <td><h3><a href="{% url 'maininspect' %}?cid={{ champ.id }}">{{ champ.name }}</a></h3></td>
+            <td><h4><a href="{% url 'maininspect' %}?cid={{ champ.id }}">{{ champ.name }}</a></h4></td>
         </tr>
             {% endfor %}
         </tbody>

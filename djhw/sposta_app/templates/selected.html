@@ -2,12 +2,11 @@
 
 {% block content %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<a href="{% url 'maininspect' %}?cid={{champ.id}}">Back</a>
 <table class="pull-right">
     <tr><td colspan="4"><h2><small><a href="{% url 'maininspect' %}?cid={{champ.id}}">{{ champ.name }}</a></small></h2></td></tr>
     <tr>
         <td><img src="/static/app/images/countries/c{{ champ.countryid }}.png"/></td>
-        <td>{{ champ.surface }}</td>
+        <td><img src="/static/app/images/court{{ champ.surface }}.png" height="36"/></td>
         <td>{{ champ.prize }}</td>
         <td>{% if champ.link != "" %}<a href="{{ champ.link }}">Link</a>{% endif %}</td>
     </tr>
@@ -52,34 +51,14 @@
 
 {{graph|safe}}
 
-{% if lsevent.reversed == 0 %}
-    {% for game,points in games %}
-        <div class="row">
-            <div class="col-md-1">{{ game.setn }}</div>
-            <div class="col-md-1">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</div>
-            <div class="col-md-1">{{ game.prewin }}</div>
-            <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
-            <div class="col-md-7">
-                {% for p in points %}
-                    {{p.sc1}}-{{p.sc2}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
-                {% endfor %}
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
-{% if lsevent.reversed == 1 %}
-    {% for game,points in games %}
-        <div class="row">
-            <div class="col-md-1">{{ game.setn }}</div>
-            <div class="col-md-1">{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}-{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}</div>
-            <div class="col-md-1">{% if game.prewin == 1 %}2{% endif %}{% if game.prewin == 2 %}1{% endif %}</div>
-            <div class="col-md-2">{{ game.dtc|date:"H:i:s" }}</div>
-            <div class="col-md-7">
-                {% for p in points %}
-                    {{p.sc2}}-{{p.sc1}}<sup>{{ p.dtc|date:"i:s" }}</sup>,
-                {% endfor %}
-            </div>
-        </div>
-    {% endfor %}
-{% endif %}
+<div class="container games-menu">
+{% for game in games %}
+    {% if lsevent.reversed == 0 %}
+        <div class="col-sm-4"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn={{game.setn}}&gid={{game.id}}" class="btn btn-primary{% if game.id == gid %} disabled{% endif %}" role="button">{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}-{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}</a></div>
+    {% endif %}
+    {% if lsevent.reversed == 1 %}
+        <div class="col-sm-4"><a href="{% url 'maininspect' %}?evid={{ mevent.id }}&sn={{game.setn}}&gid={{game.id}}" class="btn btn-primary{% if game.id == gid %} disabled{% endif %}" role="button">{{ game.sc2 }}{% if game.serve == 2 %}*{% endif %}-{{ game.sc1 }}{% if game.serve == 1 %}*{% endif %}</a></div>
+    {% endif %}
+{% endfor %}
+</div>
 {% endblock %}

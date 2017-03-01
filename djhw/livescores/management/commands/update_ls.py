@@ -137,9 +137,11 @@ class Command(BaseCommand):
                 elif currentset==5:
                     gsc1=sets51
                     gsc2=sets52
-                else:
+                elif currentset==6:
                     gsc1=0
                     gsc2=0
+                else:
+                    continue
                 if (self.is_debug):
                     self.stdout.write('eid=%s,champ=%s, gender1=%s, gender2=%s\n'%(eid,champname,gender1,gender2), ending='')
                     self.stdout.write('%30s%5s%5s%5s%5s%5s|%5s\n'%(p1,sets11,sets21,sets31,sets41,sets51,points1), ending='')

@@ -20,13 +20,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.conf.urls import include, url
-# Uncomment the next lines to enable the admin:
-# from django.conf.urls import include
-# from django.contrib import admin
-# admin.autodiscover()
+from django.conf.urls import include
+from django.contrib import admin
+admin.autodiscover()
 
 urlpatterns = [
-    # Examples:
     url(r'^$', main_app.views.home, name='home'),
     url(r'^contact$', main_app.views.contact, name='contact'),
     url(r'^about', main_app.views.about, name='about'),
@@ -62,11 +60,8 @@ urlpatterns = [
     url(r'^odds/inspect', OPInspect.as_view(), name='opinspect'),
     url(r'^bf/inspect', BFInspect.as_view(), name='bfinspect'),
     url(r'^lines', MainInspect.as_view(), name='maininspect'),
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/', include(admin.site.urls)),
 ]
 if settings.DEBUG:
     import debug_toolbar
