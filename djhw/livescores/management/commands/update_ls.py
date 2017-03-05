@@ -8,6 +8,7 @@ import requests
 from django.conf import settings
 import random
 from livescores.logic import RepeatedTimer
+import sys
 
 class Command(BaseCommand):
     is_debug=True
@@ -184,6 +185,7 @@ class Command(BaseCommand):
             self.stdout.write('#%s (%s sec) executed for %s seconds\n' %(self.counter,self.duration-((end-self.gstart).total_seconds()+self.timeout),end-start), ending='')
         if (end-self.gstart).total_seconds()+self.timeout*3>=self.duration:
             self.timer.stop()
+            sys.exit()
         self.counter+=1
 
     def save_point(self, game,sc1,sc2,dtc, lastgamewon, event):

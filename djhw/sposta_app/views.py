@@ -81,12 +81,12 @@ class MainInspect(View):
                             y2ropm=[i.w2max for i in opchanges]
                 ts=None
                 te=None
+                gameshapes=[]
                 if isls:
                     linestylegames=dict(color='rgb(128, 0, 128)',width=3,dash='dot')
                     linestylepoints=dict(color='rgb(128, 128, 128)',width=0.75)
                     lsev=lsevent[0]
                     params['lsevent']=lsev
-                    gameshapes=[]
                     shapespoint=[]
                     annos=[]
                     annospoint=[]

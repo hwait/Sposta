@@ -2,6 +2,7 @@ from betfair_app.logic import BFCommand
 from livescores.logic import RepeatedTimer
 from django.conf import settings
 from django.utils import timezone
+import sys
 
 class Command(BFCommand):
     help = 'Refreshes betfair IP data'
@@ -22,6 +23,7 @@ class Command(BFCommand):
         self.betfair_get(is_ip,self.counter)
         if (timezone.now()-self.gstart).total_seconds()+self.timeout*3>=self.duration:
             self.timer.stop()
+            sys.exit()
         # if self.counter>=self.max_attempts:
         #    self.timer.stop()
         self.counter+=1

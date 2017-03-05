@@ -1,17 +1,20 @@
+{% load i18n %}
 {% if user.is_authenticated %}
-<form id="logoutForm" action="/logout" method="post" class="navbar-right">
-    {% csrf_token %}
+<form method="post" action="{% url 'account_logout' %}">
+  {% csrf_token %}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+    {% endif %}
     <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand">Hello {{ user.username }}!</span></li>
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        <li><span class="navbar-brand">{{ user.username }}!</span></li>
+        <li><span class="navbar-brand"><button type="submit">{% trans "Sign Out" %}</button></span></li>
     </ul>
-
 </form>
-
 {% else %}
 
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="{% url 'login' %}">Log in</a></li>
+    <li><a href="{% url 'account_login' %}">{% trans "Log in" %}</a></li>
+    <li><a href="{% url 'account_signup' %}">{% trans "Register" %}</a></li>
 </ul>
 
 {% endif %}

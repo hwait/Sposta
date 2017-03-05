@@ -110,7 +110,7 @@ class Command(BaseCommand):
         log.save()
         if (self.is_debug):
             self.stdout.write('total execution is %s seconds\n' %(end-start), ending='')
-
+        sys.exit()
 
     def save_champ(self,name,sport, country):
         champ, created = OPChamp.objects.get_or_create(name=name, sport=sport, country=country)

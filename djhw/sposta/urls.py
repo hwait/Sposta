@@ -5,7 +5,7 @@ Definition of urls for sposta.
 from datetime import datetime
 from django.conf.urls import url
 import django.contrib.auth.views
-
+import allauth
 import main_app.forms
 import main_app.views
 import betfair_app.views
@@ -20,26 +20,27 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.conf.urls import include, url
-from django.conf.urls import include
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', main_app.views.home, name='home'),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^contact$', main_app.views.contact, name='contact'),
     url(r'^about', main_app.views.about, name='about'),
-    url(r'^login/$',
-        django.contrib.auth.views.login,
-        {
-            'template_name': 'app/login.html',
-            'authentication_form': main_app.forms.BootstrapAuthenticationForm,
-            'extra_context':
-            {
-                'title': 'Log in',
-                'year': datetime.now().year,
-            }
-        },
-        name='login'),
+    #url(r'^login/$',
+    #    django.contrib.auth.views.login,
+    #    {
+    #        'template_name': 'app/login.html',
+    #        'authentication_form': main_app.forms.BootstrapAuthenticationForm,
+    #        'extra_context':
+    #        {
+    #            'title': 'Log in',
+    #            'year': datetime.now().year,
+    #        }
+    #    },
+    #    name='login'),
     url(r'^logout$',
         django.contrib.auth.views.logout,
         {
@@ -62,6 +63,7 @@ urlpatterns = [
     url(r'^lines', MainInspect.as_view(), name='maininspect'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^rosetta/', include('rosetta.urls')),
 ]
 if settings.DEBUG:
     import debug_toolbar
