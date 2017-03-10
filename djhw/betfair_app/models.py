@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class BFChamp(models.Model):
     mcid = models.IntegerField(null=True)
@@ -29,6 +30,12 @@ class BFEvent(models.Model):
     dtip = models.DateTimeField(null=True)
     status = models.IntegerField(null=True) # 0 if ni, 1 if ip
     reversed = models.IntegerField(null=True)
+    @property
+    def dt_tz(self):
+        return timezone.make_naive(self.dt)
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)
 
 class BFOdds(models.Model):
     eid=models.ForeignKey(BFEvent,db_index=True)
@@ -42,3 +49,6 @@ class BFOdds(models.Model):
     l2size = models.FloatField(null=True)
     dtc = models.DateTimeField(null=True,db_index=True)
     ip = models.NullBooleanField()
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class OPChamp(models.Model):
     lid = models.IntegerField(null=True)
@@ -23,6 +24,12 @@ class OPEvent(models.Model):
     dt = models.DateTimeField(null=True)
     dtc = models.DateTimeField(null=True)
     result = models.IntegerField(null=True)
+    @property
+    def dt_tz(self):
+        return timezone.make_naive(self.dt)
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)
 
 class OPOdds(models.Model):
     ev = models.ForeignKey(OPEvent,null=True,db_index=True)
@@ -31,5 +38,7 @@ class OPOdds(models.Model):
     w1max = models.FloatField(null=True,db_index=True)
     w2max = models.FloatField(null=True,db_index=True)
     dtc = models.DateTimeField(null=True)
-    
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)    
 

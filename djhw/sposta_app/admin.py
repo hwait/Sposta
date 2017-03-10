@@ -1,3 +1,7 @@
 from django.contrib import admin
+from sposta_app.models import MEvent
 
-# Register your models here.
+@admin.register(MEvent)
+class MEventAdmin(admin.ModelAdmin):
+    pass
+

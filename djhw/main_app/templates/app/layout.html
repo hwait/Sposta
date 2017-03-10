@@ -1,4 +1,5 @@
 ﻿{% load i18n %}
+{% load main_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,11 +26,13 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'maininspect' %}">Lines</a></li>
+                    {% if request.user|ismember:'Staff' %} 
                     <li><a href="{% url 'bfinspect' %}">BF Inspect</a></li>
                     <li><a href="{% url 'lsinspect' %}">LS Inspect</a></li>
                     <li><a href="{% url 'opinspect' %}">OP Inspect</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
                     <li><a href="{% url 'stats' %}">Stats</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'about' %}">About</a></li>
                 </ul>
                 {% include 'app/loginpartial.html' %}
             </div>
@@ -43,11 +46,9 @@
             <p>&copy; {{ year }} - My Django Application</p>
         </footer>
     </div>
-
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
 {% block scripts %}{% endblock %}
-
 </body>
 </html>

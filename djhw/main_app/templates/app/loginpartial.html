@@ -6,7 +6,7 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
     <ul class="nav navbar-nav navbar-right">
-        <li><span class="navbar-brand">{{ user.username }}!</span></li>
+        <li><span class="navbar-brand"><a href="{% url 'userprofile' %}">{{ user.username }}</a></span></li>
         <li><span class="navbar-brand"><button type="submit">{% trans "Sign Out" %}</button></span></li>
     </ul>
 </form>

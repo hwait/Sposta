@@ -24,3 +24,6 @@ class MEvent(models.Model):
     p1=models.ForeignKey(MPlayer, related_name='mplayer1',null=True,db_index=True)
     p2=models.ForeignKey(MPlayer, related_name='mplayer2',null=True,db_index=True)
     dt = models.DateTimeField(null=True,db_index=True)
+    free = models.IntegerField(null=True)
+    def __unicode__(self):
+        return '%s: [%s] %s - %s' % (self.id,self.meid,self.p1.name,self.p2.name)

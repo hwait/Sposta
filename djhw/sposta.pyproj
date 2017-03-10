@@ -35,7 +35,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="main_app\forms.py" />
+    <Compile Include="main_app\middleware\middleware.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="main_app\middleware\__init__.py" />
     <Compile Include="main_app\models.py" />
+    <Compile Include="main_app\templatetags\main_tags.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="main_app\templatetags\__init__.py" />
     <Compile Include="main_app\tests.py" />
     <Compile Include="main_app\views.py" />
     <Compile Include="main_app\__init__.py" />
@@ -119,6 +127,8 @@
   <ItemGroup>
     <Folder Include="main_app\" />
     <Folder Include="main_app\migrations\" />
+    <Folder Include="main_app\middleware\" />
+    <Folder Include="main_app\templatetags\" />
     <Folder Include="main_app\static\" />
     <Folder Include="main_app\static\app\" />
     <Folder Include="main_app\static\app\content\" />
@@ -174,6 +184,7 @@
     <Content Include="main_app\templates\account\signup_closed.html" />
     <Content Include="main_app\templates\account\verification_sent.html" />
     <Content Include="main_app\templates\account\verified_email_required.html" />
+    <Content Include="main_app\templates\app\userprofile.html" />
     <Content Include="oddsportal\templates\op_all.html" />
     <Content Include="oddsportal\templates\op_champ.html" />
     <Content Include="oddsportal\templates\op_event.html" />

@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 class LSChamp(models.Model):
     mcid = models.IntegerField(null=True)
@@ -21,6 +22,9 @@ class LSEvent(models.Model):
     dtc = models.DateTimeField(null=True,db_index=True)
     lid = models.IntegerField(null=True,db_index=True)
     reversed = models.IntegerField(null=True)
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)
 
 class LSGame(models.Model):
     eid=models.ForeignKey(LSEvent,null=True,db_index=True)
@@ -30,9 +34,15 @@ class LSGame(models.Model):
     serve=models.IntegerField(null=True)
     prewin=models.IntegerField(null=True)
     dtc = models.DateTimeField(null=True,db_index=True)
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)
 
 class LSPoint(models.Model):
     gid=models.ForeignKey(LSGame,null=True,db_index=True)
     sc1=models.IntegerField()
     sc2=models.IntegerField()
     dtc = models.DateTimeField(null=True)
+    @property
+    def dtc_tz(self):
+        return timezone.make_naive(self.dtc)
