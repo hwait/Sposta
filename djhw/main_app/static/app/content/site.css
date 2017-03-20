@@ -48,3 +48,23 @@ input[type="checkbox"].input-validation-error {
     max-width: 190px;
 }
 
+.navbar-custom1 .nav > li > a:focus,
+.navbar-custom1 .nav > li > a:hover,
+.navbar-custom1 .nav > li.active > a {
+  color:#fff;
+}
+.navbar-custom1 .nav > li > a
+{
+  color:#000;
+  font-family: 'Helvetica';
+  font-size: 20px;
+  font-weight: 600;
+}
+.glyphicon {
+    font-size: 16px;
+}
+.footer {
+    position:absolute;
+    bottom:0;
+    right:0;
+}

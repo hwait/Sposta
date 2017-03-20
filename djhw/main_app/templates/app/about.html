@@ -1,10 +1,10 @@
 {% extends "app/layout.html" %}
-
+{% load i18n %}
 {% block content %}
-
-<h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
-
-<p>Use this area to provide additional information.</p>
+<br/><br/><br/>
+<p>{% blocktrans %}Sposta is a service providing info about price moving for sporting events. You can see historical odds compared with livescores on one graph. {% endblocktrans %}</p>
+<p>{% blocktrans %}Currently we test some trading strategies on the data and soon it will be available to public. {% endblocktrans %}</p>
+<p>{% blocktrans %}Soccer and Basketball matches comes this fall with starting a new season. {% endblocktrans %}</p>
+<p>{% blocktrans %}If you have any question or suggestion please send it <a href="mailto:manager@sposta.top">here</a>   {% endblocktrans %}</p>
 
 {% endblock %}

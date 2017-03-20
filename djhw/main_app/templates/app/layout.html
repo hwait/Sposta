@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top navbar-custom1" style="background-image:url('/static/app/images/headerbg.jpg');">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -21,18 +21,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Application name</a>
+                <a href="/"><img src="/static/app/images/logo.png" /></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{% url 'maininspect' %}">Lines</a></li>
+                    <li><a href="{% url 'maininspect' %}"><span class="glyphicon glyphicon-asterisk"></span> {% trans "Tennis" %}</a></li>
                     {% if request.user|ismember:'Staff' %} 
-                    <li><a href="{% url 'bfinspect' %}">BF Inspect</a></li>
-                    <li><a href="{% url 'lsinspect' %}">LS Inspect</a></li>
-                    <li><a href="{% url 'opinspect' %}">OP Inspect</a></li>
+                    <li><a href="{% url 'bfinspect' %}">BF</a></li>
+                    <li><a href="{% url 'lsinspect' %}">LS</a></li>
+                    <li><a href="{% url 'opinspect' %}">OP</a></li>
                     <li><a href="{% url 'stats' %}">Stats</a></li>
                     {% endif %}
-                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span> {% trans "About" %}</a></li>
                 </ul>
                 {% include 'app/loginpartial.html' %}
             </div>
@@ -40,12 +40,12 @@
     </div>
 
     <div class="container body-content">
-{% block content %}{% endblock %}
+{% block content %}{% endblock %}</div>
         <hr/>
-        <footer>
-            <p>&copy; {{ year }} - My Django Application</p>
+        <footer class="footer">
+            <p>&copy; 2017 - Sposta&nbsp;&nbsp;&nbsp;</p>
         </footer>
-    </div>
+    
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>

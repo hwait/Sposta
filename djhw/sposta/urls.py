@@ -26,7 +26,8 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^$', main_app.views.home, name='home'),
+    #url(r'^$', main_app.views.home, name='home'),
+    url(r'^$', MainInspect.as_view(), name='home'),
     url(r'^accounts/profile/', UserProfile.as_view(), name='userprofile'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^contact$', main_app.views.contact, name='contact'),
@@ -62,7 +63,7 @@ urlpatterns = [
     url(r'^livescores/inspect', LSInspect.as_view(), name='lsinspect'),
     url(r'^odds/inspect', OPInspect.as_view(), name='opinspect'),
     url(r'^bf/inspect', BFInspect.as_view(), name='bfinspect'),
-    url(r'^lines', MainInspect.as_view(), name='maininspect'),
+    url(r'^tennis', MainInspect.as_view(), name='maininspect'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rosetta/', include('rosetta.urls')),

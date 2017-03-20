@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-04 20:07+0600\n"
+"POT-Creation-Date: 2017-03-20 13:23+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2047,6 +2047,116 @@ msgstr ""
 msgid "Text nodes have no children"
 msgstr ""
 
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:47
+msgid "Name"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:52
+msgid "URI"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:55
+msgid ""
+"Example: imap+ssl://myusername:mypassword@someserver <br /><br />Internet "
+"transports include 'imap' and 'pop3'; common local file transports include "
+"'maildir', 'mbox', and less commonly 'babyl', 'mh', and 'mmdf'. <br /><br /"
+">Be sure to urlencode your username and password should they contain illegal "
+"characters (like @, :, etc)."
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:70
+msgid "From email"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:73
+msgid ""
+"Example: MailBot &lt;mailbot@yourdomain.com&gt;<br />'From' header to set "
+"for outgoing email.<br /><br />If you do not use this e-mail inbox for "
+"outgoing mail, this setting is unnecessary.<br />If you send e-mail without "
+"setting this, your 'From' header will'be set to match the setting "
+"`DEFAULT_FROM_EMAIL`."
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:87
+msgid "Active"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:89
+msgid ""
+"Check this e-mail inbox for new e-mail messages during polling cycles.  This "
+"checkbox does not have an effect upon whether mail is collected here when "
+"this mailbox receives mail from a pipe, and does not affect whether e-mail "
+"messages can be dispatched from this mailbox. "
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:409
+msgid "Mailbox"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:413
+msgid "Subject"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:418
+msgid "Message ID"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:427
+msgid "In reply to"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:431
+msgid "From header"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:436
+msgid "To header"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:440
+msgid "Outgoing"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:446
+msgid "Body"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:450
+msgid "Encoded"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:452
+msgid "True if the e-mail body is Base64 encoded"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:456
+msgid "Processed"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:461
+msgid "Read"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:468
+msgid "Raw message contents"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:471
+msgid "Original full content of message"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:693
+msgid "Message"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:697
+msgid "Headers"
+msgstr ""
+
+#: .\djhwenv\Lib\site-packages\django_mailbox\models.py:703
+msgid "Document"
+msgstr ""
+
 #: .\main_app\forms.py:15
 msgid "Password"
 msgstr ""
@@ -2170,7 +2280,7 @@ msgstr ""
 #: .\main_app\templates\account\logout.html:5
 #: .\main_app\templates\account\logout.html:8
 #: .\main_app\templates\account\logout.html:17
-#: .\main_app\templates\app\loginpartial.html:9
+#: .\main_app\templates\app\loginpartial.html:10
 msgid "Sign Out"
 msgstr ""
 
@@ -2301,10 +2411,69 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
-#: .\main_app\templates\app\loginpartial.html:15
+#: .\main_app\templates\app\about.html:5
+msgid ""
+"Sposta is a service providing info about price moving for sporting events. "
+"You can see historical odds compared with livescores on one graph. "
+msgstr ""
+
+#: .\main_app\templates\app\about.html:6
+msgid ""
+"Currently we test some trading strategies on the data and soon it will be "
+"available to public. "
+msgstr ""
+
+#: .\main_app\templates\app\about.html:7
+msgid ""
+"Soccer and Basketball matches comes this fall with starting a new season. "
+msgstr ""
+
+#: .\main_app\templates\app\about.html:8
+msgid ""
+"If you have any question or suggestion please send it <a href=\"mailto:"
+"manager@sposta.top\">here</a>   "
+msgstr ""
+
+#: .\main_app\templates\app\layout.html:28
+msgid "Tennis"
+msgstr ""
+
+#: .\main_app\templates\app\layout.html:35
+msgid "About"
+msgstr ""
+
+#: .\main_app\templates\app\loginpartial.html:16
 msgid "Log in"
 msgstr ""
 
 #: .\main_app\templates\app\loginpartial.html:17
 msgid "Register"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:5
+msgid "Dear"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:6
+msgid "You're logged as"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:13
+msgid "First name"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:19
+msgid "Last name"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:25
+msgid "Time zone"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:35
+msgid "Choose language"
+msgstr ""
+
+#: .\main_app\templates\app\userprofile.html:45
+msgid "Save"
 msgstr ""

@@ -1,18 +1,49 @@
 {% extends "app/layout.html" %}
 {% load tz %}
+{% load i18n %}
 {% block content %}
-<h2>Dear {{ user.first_name }} {{ user.last_name }}</h2>
-<p>You're logged as {{ user.username }}.</p>
+<h2>{% trans "Dear" %} {{ user.first_name }} {{ user.last_name }}</h2>
+<p>{% trans "You're logged as" %} {{ user.username }}.</p>
 
 {% get_current_timezone as TIME_ZONE %}
 <form action="{% url 'userprofile' %}" method="POST">
     {% csrf_token %}
-    <label for="timezone">Time zone:</label>
-    <select name="timezone">
-        {% for tz in timezones %}
-        <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected="selected"{% endif %}>{{ tz }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Set" />
+    <table class="table table-striped">
+        <tr>
+            <td class="col-md-4">{% trans "First name" %}:</td>
+            <td class="col-md-4">
+                <input type="text" value="{{ user.first_name }}" name="fname">
+            </td>
+        </tr>
+        <tr>
+            <td class="col-md-4">{% trans "Last name" %}:</td>
+            <td class="col-md-4">
+                <input type="text" value="{{ user.last_name }}" name="lname">
+            </td>
+        </tr>
+        <tr>
+            <td class="col-md-4">{% trans "Time zone" %}:</td>
+            <td class="col-md-4">
+                <select name="timezone">
+                    {% for tz in timezones %}
+                    <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected="selected"{% endif %}>{{ tz }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-md-4">{% trans "Choose language" %}:</td>
+            <td class="col-md-4">
+                <select name="lang">
+                    {% for code,lang in languages %}
+                    <option value="{{ code }}"{% if code == langcode %} selected="selected"{% endif %}>{{ lang }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td><td><input type="submit" value="{% trans 'Save' %}" /></td>
+        </tr>
+    </table>
 </form>
 {% endblock %}

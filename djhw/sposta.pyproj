@@ -168,6 +168,8 @@
     <Content Include="betfair_app\templates\bf_all.html" />
     <Content Include="livescores\templates\ls_index.html" />
     <Content Include="main_app\static\app\images\ATP.png" />
+    <Content Include="main_app\static\app\images\headerbg.jpg" />
+    <Content Include="main_app\static\app\images\logo.png" />
     <Content Include="main_app\static\app\images\WTA.png" />
     <Content Include="main_app\templates\account\account_inactive.html" />
     <Content Include="main_app\templates\account\email.html" />

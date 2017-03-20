@@ -159,7 +159,10 @@ class MainInspect(View):
                         else:
                             gameshapes.append(dict(type='line',yref='paper',x0=timezone.make_naive(te),y0=0,x1=timezone.make_naive(te),y1=1,line=linestylegames))
                             gameshapes.append(dict(type='rect',yref='paper',x0=timezone.make_naive(ts),y0=0,x1=timezone.make_naive(te),y1=1,fillcolor='#ffccbc', opacity=0.3,line={'width': 0})) 
-                            te=endset[0].dtc
+                            try:
+                                te=endset[0].dtc
+                            except:
+                                te=BFOdds.objects.filter(eid=bfevent[0]).latest('dtc').dtc
                         if isbf:
                             bfchanges=BFOdds.objects.filter(eid=bfevent[0], dtc__gte=ts, dtc__lte=te,b1odds__gt=0,b2odds__gt=0,l1odds__gt=0,l2odds__gt=0).order_by('dtc') if len(endset)>0 or gid>0 else BFOdds.objects.filter(eid=bfevent[0], dtc__gte=ts,b1odds__gt=0,b2odds__gt=0,l1odds__gt=0,l2odds__gt=0).order_by('dtc')
                     params['games']=[]
@@ -222,7 +225,7 @@ class MainInspect(View):
                     dataseries.append(Scatter(x=xr, y=y2r,mode = 'lines',name = p2+' (Back)', line=dict( color='rgb(216, 67, 21)', )))
                     dataseries.append(Scatter(x=xr, y=y2rl,mode = 'lines',name = p2+' (Lay)', line=dict( color='rgb(255, 138, 101)', ),visible="legendonly"))
                     if sn==0 and isop:
-                        dataseries.append(Scatter(x=xrop, y=y2rop,mode = 'lines',name = p2+' (Back)', line=dict( color='rgb(249, 168, 37)', )))
+                        dataseries.append(Scatter(x=xrop, y=y2rop,mode = 'lines',name = p2+' (Avg)', line=dict( color='rgb(249, 168, 37)', )))
                         dataseries.append(Scatter(x=xrop, y=y2ropm,mode = 'lines',name = p2+' (Max)', line=dict( color='rgb(233, 30, 99)', ),visible="legendonly"))
                     if gid>0:
                         figure_or_data = { "data": dataseries, "layout":gamelay }
