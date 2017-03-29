@@ -27,3 +27,18 @@ class MEvent(models.Model):
     free = models.IntegerField(null=True)
     def __unicode__(self):
         return '%s: [%s] %s - %s' % (self.id,self.meid,self.p1.name,self.p2.name)
+
+class PlayerSetStats(models.Model):
+    sc = models.IntegerField(db_index=True)
+    meid = models.IntegerField(db_index=True)
+    pid = models.IntegerField(db_index=True)
+    tp = models.IntegerField(null=True)
+    tw = models.IntegerField(null=True)
+    s1w = models.IntegerField(null=True)
+    s1ws2l = models.IntegerField(null=True)
+    s1wml = models.IntegerField(null=True)
+    s1ws2lmw = models.IntegerField(null=True)
+    s1l = models.IntegerField(null=True)
+    s1ls2w = models.IntegerField(null=True)
+    s1lmw = models.IntegerField(null=True)
+    s1ls2wml = models.IntegerField(null=True)

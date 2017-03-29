@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from main_app.models import ALog
 from oddsportal.models import OPChamp,OPEvent,OPPlayer,OPOdds
-from sposta_app.models import MChamp,MEvent
+from sposta_app.models import MChamp,MEvent,PlayerSetStats
 from django.utils import timezone
 from django.utils.timezone import localtime
 from datetime import datetime, timedelta
@@ -158,8 +158,11 @@ class OPApiIds(View):
         opchamps.delete()
         mevents=MEvent.objects.filter(dt__lt=start)
         mevn=mevents.count()
+        for ev in mevents:
+            PlayerSetStats.objects.filter(meid=ev.id).delete()
         mevents.delete()
         mchamps=MChamp.objects.filter(mevent__pk__isnull=True)
         mcn=mchamps.count()
         mchamps.delete()
-        return 'CLEARED: %s champs, %s events, %s odds, %s mchamps, %s mevents' % (opcn,evn,oddn, mcn, mevn)
+        ret='CLEARED: %s champs, %s events, %s odds, %s mchamps, %s mevents' % (opcn,evn,oddn, mcn, mevn) if (bfcn+evn+oddn+mcn+mevn)>0 else 'CLEARED: none'
+        return ret

@@ -7,14 +7,13 @@
     {% endif %}
     <ul class="nav navbar-nav navbar-right">
         <li><a href="{% url 'userprofile' %}"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
-        <li><a href="{% url 'account_logout' %}"><span class="glyphicon glyphicon-log-out"></span> {% trans "Sign Out" %}</a></li>
+        <li><a href="{% url 'account_logout' %}"> <span class="glyphicon glyphicon-log-out"></span> </a></li>
     </ul>
 </form>
 {% else %}
 
 <ul class="nav navbar-nav navbar-right">
     <li><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
-    <li><a href="{% url 'account_signup' %}"><span class="glyphicon glyphicon-pencil"></span> {% trans "Register" %}</a></li>
 </ul>
 
 {% endif %}

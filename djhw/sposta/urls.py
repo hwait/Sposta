@@ -8,7 +8,7 @@ import django.contrib.auth.views
 import allauth
 import main_app.forms
 import main_app.views
-from main_app.views import UserProfile
+from main_app.views import UserProfile,JointLoginSignupView
 import betfair_app.views
 import sposta_app.views
 import livescores.views
@@ -29,6 +29,7 @@ urlpatterns = [
     #url(r'^$', main_app.views.home, name='home'),
     url(r'^$', MainInspect.as_view(), name='home'),
     url(r'^accounts/profile/', UserProfile.as_view(), name='userprofile'),
+    url(r'^accounts/login/', JointLoginSignupView.as_view(), name='account_login'),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^contact$', main_app.views.contact, name='contact'),
     url(r'^about', main_app.views.about, name='about'),

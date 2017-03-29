@@ -11,6 +11,21 @@ from django.views import View
 import pytz
 from django.utils import translation
 from django.conf import settings
+from allauth.account.views import *
+
+class JointLoginSignupView(LoginView):
+    form_class = LoginForm
+    signup_form  = SignupForm
+    def __init__(self, **kwargs):
+        super(JointLoginSignupView, self).__init__(*kwargs)        
+
+    def get_context_data(self, **kwargs):
+        ret = super(JointLoginSignupView, self).get_context_data(**kwargs)
+        ret['signupform'] = get_form_class(app_settings.FORMS, 'signup', self.signup_form)
+        return ret
+
+login = JointLoginSignupView.as_view()
+
 
 class UserProfile(View):
     def get(self, request):

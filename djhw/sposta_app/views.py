@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from main_app.models import ALog
-from sposta_app.models import MChamp, MPlayer,MEvent
+from sposta_app.models import MChamp, MPlayer,MEvent,PlayerSetStats
 from betfair_app.models import BFChamp,BFEvent,BFPlayer,BFOdds
 from livescores.models import LSChamp,LSEvent,LSPlayer,LSGame,LSPoint
 from oddsportal.models import OPChamp,OPEvent,OPPlayer,OPOdds
@@ -122,8 +122,13 @@ class MainInspect(View):
                         gamelay=Layout(title=currentgametxt,shapes = shapespoint, annotations=annospoint,yaxis=dict(type='log', autorange=True),)
 
                     if(sn==0): # not IP
-                        ts=LSGame.objects.filter(eid=lsev,setn=1).order_by('dtc')[0].dtc
-                        te=LSGame.objects.filter(eid=lsev,setn=1).order_by('dtc')[1].dtc
+                        tmp=LSGame.objects.filter(eid=lsev,setn=1).order_by('dtc')
+                        if len(tmp)==0:
+                            ts=lsev.dtc if not isbf else BFOdds.objects.filter(eid=bfevent[0],ip=0).latest('dtc').dtc
+                            te=ts
+                        else:
+                            ts=tmp[0].dtc
+                            te=tmp[1].dtc
                         gameshapes.append(dict(type='line',yref='paper',x0=timezone.make_naive(ts),y0=0,x1=timezone.make_naive(ts),y1=1,line=linestylegames))
                         gameshapes.append(dict(type='rect',yref='paper',x0=timezone.make_naive(ts),y0=0,x1=timezone.make_naive(te),y1=1,fillcolor='#ffccbc', opacity=0.3,line={'width': 0}))
                         if isbf:
@@ -368,6 +373,22 @@ class ApiBind(View):
                         op.reversed=int(mevent['revop'])
                         op.meid=int(mevent['meid'])
                         op.save()
+        if 'pstats' in request.POST:
+            pstats=json.loads(request.POST['pstats'])
+            for pstat in pstats:
+                obj, created = PlayerSetStats.objects.get_or_create(sc=int(pstat['sc']),meid=int(pstat['meid']),pid=int(pstat['pid']))
+                if (created):
+                    obj.tp = int(pstat['tp'])
+                    obj.tw = int(pstat['tw'])
+                    obj.s1w = int(pstat['s1w'])
+                    obj.s1ws2l = int(pstat['s1ws2l'])
+                    obj.s1wml = int(pstat['s1wml'])
+                    obj.s1ws2lmw = int(pstat['s1ws2lmw'])
+                    obj.s1l = int(pstat['s1l'])
+                    obj.s1ls2w = int(pstat['s1ls2w'])
+                    obj.s1lmw = int(pstat['s1lmw'])
+                    obj.s1ls2wml = int(pstat['s1ls2wml'])
+                    obj.save()
         else:
             res='no data'
         response_data = {}
