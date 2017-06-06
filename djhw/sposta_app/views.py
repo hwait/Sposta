@@ -10,9 +10,6 @@ from datetime import datetime, timedelta
 from django.db.models import Max
 from betfair_app.models import BFEvent
 from livescores.models import LSEvent
-import plotly 
-from plotly.offline.offline import _plot_html
-from plotly.graph_objs import Scatter, Layout
 import json
 from django.core import serializers
 from django.http import JsonResponse
@@ -45,20 +42,34 @@ class MainInspect(View):
                 params['events']=events
                 template='events.html'
             if 'evid' in request.GET and 'sn' in request.GET:
+                import plotly 
+                from plotly.offline.offline import _plot_html
+                from plotly.graph_objs import Scatter, Layout
                 setsCount=1
                 meid=int(request.GET['evid'])
                 sn=int(request.GET['sn'])
                 gid=0
                 if 'gid' in request.GET:
                     gid=int(request.GET['gid'])
-                    params['gid']=gid
                     currentgame=LSGame.objects.prefetch_related('lspoint_set').get(id=gid)
+                params['gid']=gid
                 mevent=MEvent.objects.select_related('p1','p2','champ').get(id=meid)
                 params['mevent']=mevent
                 setsCount=len(mevent.res.split(' '))
                 params['champ']=mevent.champ
                 params['player1']=mevent.p1
                 params['player2']=mevent.p2
+                #
+                # PlayerSetStats section
+                #
+                pss1=PlayerSetStats.objects.filter(meid=mevent.meid,pid=mevent.p1.mpid).order_by('sc')
+                pss2=PlayerSetStats.objects.filter(meid=mevent.meid,pid=mevent.p2.mpid).order_by('sc')
+                if (len(pss1)>0 and len(pss1)>0):
+                    pssstr1='[%s]' % ','.join([str(x) for x in pss1])
+                    pssstr2='[%s]' % ','.join([str(x) for x in pss2])
+                    params['pss']='<script type="text/javascript">var pss = [%s,%s];StatInit();</script>' % (pssstr1,pssstr2)
+                else:
+                    params['pss']=''
                 lsevent=LSEvent.objects.prefetch_related('lsgame_set').filter(meid=mevent.meid)
                 isls=len(lsevent)>0
                 bfevent=BFEvent.objects.prefetch_related('bfodds_set').filter(meid=mevent.meid)
@@ -256,6 +267,7 @@ class MainInspect(View):
                     params['graph'] = ''.join([
                                 plot_html,
                                 resize_script])
+
                 template='selected.html'
             else:
                 params['cid']=''
@@ -263,6 +275,7 @@ class MainInspect(View):
                 wta=MChamp.objects.filter(gender=0).order_by('name')
                 params['atp']=atp
                 params['wta']=wta
+        params['currentpage']='Tennis'
         return render(request,template,params)
 
     def getSetButtons(self, params, sn,sets,isls):

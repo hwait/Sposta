@@ -36,6 +36,7 @@ class LSInspect(View):
                 params['cid']=''
                 champs=LSChamp.objects.filter(lsevent__isnull=False).distinct()
                 params['champs']=champs
+        params['currentpage']='LS'
         return render(request,template,params)
     
 class LSApiGet(View):

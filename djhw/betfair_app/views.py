@@ -6,9 +6,6 @@ from sposta_app.models import MChamp,MEvent,PlayerSetStats
 from django.utils import timezone
 from django.utils.timezone import localtime
 from datetime import datetime, timedelta
-import plotly 
-from plotly.offline.offline import _plot_html
-from plotly.graph_objs import Scatter
 from django.core import serializers
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -25,6 +22,10 @@ class BFInspect(View):
                 params['events']=events
                 template='bf_champ.html'
             if 'evid' in request.GET and 'isip' in request.GET:
+                import plotly 
+                from plotly.offline.offline import _plot_html
+                from plotly.graph_objs import Scatter
+
                 evid=int(request.GET['evid'])
                 isip=request.GET['isip']=='1'
                 event=BFEvent.objects.get(id=evid)
@@ -65,6 +66,7 @@ class BFInspect(View):
                 params['cid']=''
                 champs=BFChamp.objects.filter(bfevent__isnull=False).distinct()
                 params['champs']=champs
+        params['currentpage']='BF'
         return render(request,template,params)
 
 class BFApiGet(View):

@@ -13,42 +13,45 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top navbar-custom1" style="background-image:url('/static/app/images/headerbg.jpg');">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/"><img src="/static/app/images/logo.png" /></a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{% url 'maininspect' %}"><span class="glyphicon glyphicon-asterisk"></span> {% trans "Tennis" %}</a></li>
-                    {% if request.user|ismember:'Staff' %} 
-                    <li><a href="{% url 'bfinspect' %}">BF</a></li>
-                    <li><a href="{% url 'lsinspect' %}">LS</a></li>
-                    <li><a href="{% url 'opinspect' %}">OP</a></li>
-                    <li><a href="{% url 'stats' %}">Stats</a></li>
-                    {% endif %}
-                    <li><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span> {% trans "About" %}</a></li>
-                </ul>
-                {% include 'app/loginpartial.html' %}
-            </div>
+ {#navbar-custom1#}
+<nav class="navbar navbar-fixed-top navbar-custom1">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img alt="Sposta" src="/static/app/images/logo18.png"/></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav ">
+                <li {% ifequal currentpage 'Tennis' %}class="active"{% endifequal%}><a href="{% url 'maininspect' %}"><span class="glyphicon glyphicon-asterisk"></span> {% trans "Tennis" %}</a></li>
+                {% if request.user|ismember:'Staff' %}
+                <li {% ifequal currentpage 'BF' %}class="active"{% endifequal%}><a href="{% url 'bfinspect' %}">BF</a></li>
+                <li {% ifequal currentpage 'LS' %}class="active"{% endifequal%}><a href="{% url 'lsinspect' %}">LS</a></li>
+                <li {% ifequal currentpage 'OP' %}class="active"{% endifequal%}><a href="{% url 'opinspect' %}">OP</a></li>
+                <li {% ifequal currentpage 'Stats' %}class="active"{% endifequal%}><a href="{% url 'stats' %}">Stats</a></li>
+                {% endif %}
+                
+                <li {% ifequal currentpage 'About' %}class="active"{% endifequal%}><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span> {% trans "About" %}</a></li{%>
+            </ul>
+            {% include 'app/loginpartial.html' %}
         </div>
     </div>
+</nav>
 
-    <div class="container body-content">
-{% block content %}{% endblock %}</div>
-        <hr/>
-        <footer class="footer">
-            <p>&copy; 2017 - Sposta&nbsp;&nbsp;&nbsp;</p>
-        </footer>
-    
-    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
-    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
-    <script src="{% static 'app/scripts/respond.js' %}"></script>
+<div class="container body-content">
+    {% block content %}{% endblock %}</div>
+<hr/>
+<footer class="footer">
+    <p>&copy; 2017 - Sposta&nbsp;&nbsp;&nbsp;</p>
+</footer>
+
+<script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+<script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+<script src="{% static 'app/scripts/respond.js' %}"></script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

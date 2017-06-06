@@ -6,9 +6,6 @@ from sposta_app.models import MChamp,MEvent,PlayerSetStats
 from django.utils import timezone
 from django.utils.timezone import localtime
 from datetime import datetime, timedelta
-import plotly 
-from plotly.offline.offline import _plot_html
-from plotly.graph_objs import Scatter
 from django.core import serializers
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -26,6 +23,10 @@ class OPInspect(View):
                 params['events']=events
                 template='op_champ.html'
             if 'evid' in request.GET:
+                import plotly 
+                from plotly.offline.offline import _plot_html
+                from plotly.graph_objs import Scatter
+
                 evid=int(request.GET['evid'])
                 event=OPEvent.objects.select_related('p1','p2','champ').get(id=evid)
                 params['event']=event
@@ -63,6 +64,7 @@ class OPInspect(View):
             else:
                 champs=OPChamp.objects.filter(opevent__isnull=False).distinct()
                 params['champs']=champs
+        params['currentpage']='OP'
         return render(request,template,params)
 
 class OPApiGet(View):

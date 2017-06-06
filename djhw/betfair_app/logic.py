@@ -62,7 +62,7 @@ class BFCommand(BaseCommand):
                 event_id=m.event.id
                 ds=timezone.make_aware(m.event.open_date)
                 p1=m.runners[0].runner_name
-                if('/' in p1): 
+                if(p1==None or '/' in p1): 
                     continue
                 rid1=m.runners[0].selection_id
                 p2=m.runners[1].runner_name

@@ -42,3 +42,5 @@ class PlayerSetStats(models.Model):
     s1ls2w = models.IntegerField(null=True)
     s1lmw = models.IntegerField(null=True)
     s1ls2wml = models.IntegerField(null=True)
+    def __unicode__(self):
+        return '{t:%s,sc:0,tp:%s,tw:%s,s1w:%s,s1ws2l:%s,s1wml:%s,s1ws2lmw:%s,s1l:%s,s1ls2w:%s,s1lmw:%s,s1ls2wml:%s}' % (self.sc,self.tp,self.tw,self.s1w,self.s1ws2l,self.s1wml,self.s1ws2lmw,self.s1l,self.s1ls2w,self.s1lmw,self.s1ls2wml)

@@ -47,17 +47,26 @@ input[type="checkbox"].input-validation-error {
     left: 440px;
     max-width: 190px;
 }
-
-.navbar-custom1 .nav > li > a:focus,
-.navbar-custom1 .nav > li > a:hover,
+.navbar-brand {
+  background-color: #303f9f;
+}
+.navbar-custom1 {
+  background-color: #e3f2fd;
+}
 .navbar-custom1 .nav > li.active > a {
   color:#fff;
+  background-color: #e64a19;
+}
+.navbar-custom1 .nav > li > a:focus,
+.navbar-custom1 .nav > li > a:hover {
+  color:#fff;
+  background-color: #ffccbc;
 }
 .navbar-custom1 .nav > li > a
 {
-  color:#000;
+  color:#8d6e63;
   font-family: 'Helvetica';
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 600;
 }
 .glyphicon {
@@ -67,4 +76,23 @@ input[type="checkbox"].input-validation-error {
     position:absolute;
     bottom:0;
     right:0;
+}
+.padded {
+    border-collapse: separate;
+    border-spacing: 3px 3px;
+}
+.table-header-inverted {
+    background-color: #1085e0;
+	color: #fff;
+	font-weight: 600;
+}
+.left-country {
+    position: relative;
+    bottom: 235px;
+    left: -10px;
+}
+.right-country {
+    position: relative;
+    bottom: 235px;
+    left: 110px;
 }

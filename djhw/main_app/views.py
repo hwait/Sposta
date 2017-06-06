@@ -22,6 +22,7 @@ class JointLoginSignupView(LoginView):
     def get_context_data(self, **kwargs):
         ret = super(JointLoginSignupView, self).get_context_data(**kwargs)
         ret['signupform'] = get_form_class(app_settings.FORMS, 'signup', self.signup_form)
+        ret['currentpage']='Signup'
         return ret
 
 login = JointLoginSignupView.as_view()
@@ -40,6 +41,7 @@ class UserProfile(View):
         params['timezones']=pytz.common_timezones
         params['langcode']=language
         params['languages']=settings.LANGUAGES
+        params['currentpage']='User'
         return render(request,'app/userprofile.html',params)
 
     def post(self, request):
@@ -61,7 +63,6 @@ class UserProfile(View):
         return redirect('/')    
 
 def home(request):
-    """Renders the home page."""
     assert isinstance(request, HttpRequest)
     if request.user.id==None:
         language=settings.LANGUAGE_CODE
@@ -83,7 +84,6 @@ def home(request):
     )
 
 def contact(request):
-    """Renders the contact page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -96,15 +96,12 @@ def contact(request):
     )
 
 def about(request):
-    """Renders the about page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
         'app/about.html',
         {
-            'title':'About',
-            'message':'Your application description page.',
-            'year':datetime.now().year,
+            'currentpage':'About',
         }
     )
 

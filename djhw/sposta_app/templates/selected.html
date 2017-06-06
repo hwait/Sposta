@@ -2,6 +2,8 @@
 
 {% block content %}
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="/static/app/scripts/stats.js"></script>
+
 <table class="pull-right">
     <tr><td colspan="4"><h2><small><a href="{% url 'maininspect' %}?cid={{champ.id}}">{{ champ.name }}</a></small></h2></td></tr>
     <tr>
@@ -25,6 +27,7 @@
     </tr>
 </table>
 <br>
+{% if gid > 0 %}
 <table>
     <tr>
         <td rowspan="4" class="col-md-1"><img src="/static/app/images/players/{{ player1.mpid }}.jpg"/></td>
@@ -48,6 +51,89 @@
         <td></td>
     </tr>
 </table>
+{% else %}
+    {% ifequal pss '' %}
+        <table class="table-condenced padded">
+            <tr height="12">
+                <td colspan="4" class="text-right"><h2>{{ player1.name }}</h2></td>
+		        <td class="text-center"><h2>vs.</h2></td>
+                <td colspan="4" class="text-left"><h2>{{ player2.name }}</h2></td>
+            </tr>
+	        <tr height="12">
+		        <td rowspan="3" height="12"><img src="/static/app/images/players/{{ player1.mpid }}.jpg"/><div>Rating:<b></b>, Birth:<b>{{ player1.db|date:"d M Y" }}</b></div><div class="left-country"><img src="/static/app/images/countries/c{{ player1.cid }}.png"/></div></td>
+		        <td rowspan="3">&nbsp;Sorry, no stats available for this match&nbsp;</td>
+		        <td rowspan="3" height="12"><img src="/static/app/images/players/{{ player2.mpid }}.jpg"/><div>Rating:<b></b>, Birth:<b>{{ player2.db|date:"d M Y" }}</b></div><div class="right-country"><img src="/static/app/images/countries/c{{ player2.cid }}.png"/></div></td>
+		        <td class="text-center"> Scheduled:<br>{{ tscheduled|date:"d M, H:i" }}</td>
+            </tr>
+	        <tr height="12">
+		        <td class="text-center"> Completed:<br>{{ tcomplete|date:"d M, H:i:s" }}</td>
+            </tr>
+	        <tr height="12">
+            </tr>
+        </table>
+    {% else %}
+<table class="table-condenced padded">
+    <tr height="12">
+        <td colspan="4" class="text-right"><h2>{{ player1.name }}</h2></td>
+        <td class="text-center"><h2>vs.</h2></td>
+        <td colspan="4" class="text-left"><h2>{{ player2.name }}</h2></td>
+    </tr>
+    <tr height="12">
+        <td rowspan="7" height="12"><img src="/static/app/images/players/{{ player1.mpid }}.jpg"/><div>Rating:<b></b>, Birth:<b>{{ player1.db|date:"d M Y" }}</b></div><div class="left-country"><img src="/static/app/images/countries/c{{ player1.cid }}.png"/></div></td>
+        <td colspan="6" class="table-header-inverted">&nbsp;To win a match</td>
+        <td rowspan="7" height="12"><img src="/static/app/images/players/{{ player2.mpid }}.jpg"/><div>Rating:<b></b>, Birth:<b>{{ player2.db|date:"d M Y" }}</b></div><div class="right-country"><img src="/static/app/images/countries/c{{ player2.cid }}.png"/></div></td>
+        <td rowspan="2" class="text-center"> Scheduled:<br>{{ tscheduled|date:"d M, H:i" }}</td>
+    </tr>
+    <tr height="12">
+        <td rowspan="2" class="active text-center"><div id="mtw0"></div><div id="mtp0"></div><div id="mtl0"></div></td>
+        <td class="text-center" id="mpw0"></td>
+        <th class="text-center" id="mow0"></th>
+        <th class="text-center" id="mow1"></th>
+        <td class="text-center" id="mpw1"></td>
+        <td class="active text-center" rowspan="2"><div id="mtw1"></div><div id="mtp1"></div><div id="mtl1"></div></td>
+    </tr>
+    <tr height="12">
+        <td class="text-center" id="mpl0"></td>
+        <th class="text-center" id="mol0"></th>
+        <th class="text-center" id="mol1"></th>
+        <td class="text-center" id="mpl1"></td>
+        <td rowspan="2" class="text-center"> Completed:<br>{{ tcomplete|date:"d M, H:i:s" }}</td>
+    </tr>
+    <tr height="12">
+        <td colspan="6" class="table-header-inverted">&nbsp;To win a next set</td>
+    </tr>
+    <tr height="12">
+        <td rowspan="2" class="active text-center"><div id="stw0"></div><div id="stp0"></div><div id="stl0"></div></td>
+        <td class="text-center" id="spw0"></td>
+        <th class="text-center" id="sow0"></th>
+        <th class="text-center" id="sow1"></th>
+        <td class="text-center" id="spw1"></td>
+        <td rowspan="2" class="active text-center"><div id="stw1"></div><div id="stp1"></div><div id="stl1"></div></td>
+        <td rowspan="3" class="text-center"> Try score:<br/>
+            <a href="javascript:ScorePressed(0);" class="btn btn-primary btn-lg" role="button"><div id="sc0">0</div></a>
+            <b>:</b>
+            <a href="javascript:ScorePressed(1);" class="btn btn-primary btn-lg" role="button"><div id="sc1">0</div></a>
+        </td>
+    </tr>
+    <tr height="12">
+        <td class="text-center" id="spl0"></td>
+        <th class="text-center" id="sol0"></th>
+        <th class="text-center" id="sol1"></th>
+        <td class="text-center" id="spl1"></td>
+    </tr>
+    <tr height="12">
+        <td colspan="6">
+            <a href="javascript:TypePressed(0);" class="btn btn-primary btn-sm" role="button" id="st0">ALL</a>
+            <a href="javascript:TypePressed(1);" class="btn btn-primary btn-sm" role="button" id="st1">ODD</a>
+            <a href="javascript:TypePressed(2);" class="btn btn-primary btn-sm" role="button" id="st2">SFC</a>
+            <a href="javascript:TypePressed(3);" class="btn btn-primary btn-sm" role="button" id="st3">CNT</a>
+            <a href="javascript:TypePressed(4);" class="btn btn-primary btn-sm" role="button" id="st4">RND</a></td>
+    </tr>
+</table>
+    {{ pss|safe }}
+    {% endifequal %}
+{% endif %}
+
 
 {{graph|safe}}
 

@@ -6,14 +6,14 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
     {% endif %}
     <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'userprofile' %}"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
+        <li {% ifequal currentpage 'User' %}class="active"{% endifequal%}><a href="{% url 'userprofile' %}"><span class="glyphicon glyphicon-user"></span> {{ user.username }}</a></li>
         <li><a href="{% url 'account_logout' %}"> <span class="glyphicon glyphicon-log-out"></span> </a></li>
     </ul>
 </form>
 {% else %}
 
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
+    <li {% ifequal currentpage 'Signup' %}class="active"{% endifequal%}><a href="{% url 'account_login' %}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
 </ul>
 
 {% endif %}
