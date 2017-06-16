@@ -1,0 +1,107 @@
+{% extends "app/layout.html" %}
+{% load i18n %}
+{% block content %}
+<br/>
+<div class="list-group">
+    <div class="help1 list-group-item active">{% blocktrans %}Odds Moving Graph (OMG){% endblocktrans %}</div>
+    <a href="#" class="list-group-item help2" id="setsview"><h4>{% blocktrans %}Sets view{% endblocktrans %}</h4></a>
+    <div class="help list-group-item-text" id="c_setsview">{% blocktrans %}
+        <p>On the upper right corner of the screen you can see the set selector. It looks like:</p>
+        <img alt="Sets selector" class="pull-right" src="/static/app/images/help/setsselector.png"/>
+        <p>Before match starts there is a "Not In-Play" button available only. When match starts a button "1" appears, use it to see the In-Play odds. When result of the match is available use the buttons with numbers to see the odds for appropriate set.
+        The livescores data is not available sometimes. For these matches only two buttons available - for  Not-Inplay and In-Play odds.</p>{% endblocktrans %}
+    </div>
+<a href="#" class="list-group-item help2" id="showandhide"><h4>{% blocktrans %}Show and hide odds series{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_showandhide">{% blocktrans %}
+    The main source for odds data is Betfair. There are four BF data series to show: Back and Lay for both teams. 
+    Also the oddsportal data is available for most matches. There are also four data series: Average and Max market odds for both teams. 
+    You can show or hide any serie just by click on its name.{% endblocktrans %} 
+</div>
+<a href="#" class="list-group-item help2" id="zoominout"><h4>{% blocktrans %}Zoom In and Out{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_zoominout">{% blocktrans %}
+    <p>Despite logarythmic odds scale it is difficult to see details in serie with odds above 100 and odds below 2 on same graph. This is the common situation for Lay odds in Not-Inplay and for Last Set graph parts. For better visualisation you can use Zoom or Game view.</p>
+    <p>To zoom in just draw a rectangle inside graph region: </p>
+    <img alt="Zoom In" class="center-block" src="/static/app/images/help/weak3.png"/>
+    <p>To zoom out just double click on the graph.</p>{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="gamesview"><h4>{% blocktrans %}Games view{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_gamesview">{% blocktrans %}
+    <p>You can see the detailed point-to-point odds move in Game view:</p>
+    <img alt="Games view" src="/static/app/images/help/strong2.png"/>
+    <p>To show this just click on button with desired game on Games Pad on the right side of the graph.</p>{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="weakmarkets"><h4>{% blocktrans %}Weak markets{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_weakmarkets">{% blocktrans %}
+    <p>There is a lot of unpopular markets with low trading volume. You can determine it by the following signs:</p>
+    <ul>
+    <li>A big difference between one team Back and Lay odds. </li>
+    <li>Not much data on Not-Inplay period. </li>
+    <li>A sawtooth graph of Lay odds. </li>
+    </ul>
+    <p>The typical examples:</p>{% endblocktrans %}
+    <img alt="Weak market" class="center-block" src="/static/app/images/help/weak1.png"/>
+    <img alt="Weak market" class="center-block" src="/static/app/images/help/weak2.png"/>
+</div>
+<div class="help1 list-group-item active">{% blocktrans %}Sets Stats Table (SST){% endblocktrans %}</div>
+<a href="#" class="list-group-item help2" id="mainelements"><h4>{% blocktrans %}Main elements{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_mainelements">{% blocktrans %}
+    <p>The SST is based on 3-sets tennis matches, data from 5-sets matches are excluded from a bias. Top half of the table shows data for players to win whole match, the bottom half shows stats for a next set. 
+    There are Filters Buttons under the table. You can use them to narrow bias on one of the following criterias:</p>
+    <p><strong>ODD - Odds</strong></p>
+    <p>The last Non-Inplay odds for a player represent its strength by combining a lot of factors. This filter allows you to see past player results from matches with same strength opponents.</p>
+    <p><strong>SFC - Surface</strong></p>
+    <p>This filter allows you to see past player results from matches on the same surface.</p>
+    <p><strong>CNT - Country</strong></p>
+    <p>This filter allows you to see past player results from matches on the same country. This factor can be important if a match takes place in native country of one players.</p>
+    <p><strong>RND - Round</strong></p>
+    <p>This filter allows you to see past player results from matches on the same tour stage. There are four stages: </p>
+    <ul>
+        <li>Pre-Start - qualification rounds;</li>
+        <li>First stage - 1st round only;</li>
+        <li>Middle stage - from 2nd round till semifinal;</li>
+        <li>Last stage - semifinal and final</li>
+    </ul>
+    <img alt="Sets Stats Table" class="center-block" src="/static/app/images/help/SST.png"/>
+    <p>Please always look at the total count of matches. The bigger, the better. If this number is less then 20 then it is mostly not representative.</p>{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="setsprogress"><h4>{% blocktrans %}Sets Progress Selector (SPS){% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_setsprogress">
+    {% blocktrans %}To model the match progress from set to set you should use the Sets Progress Selector. 
+    <img alt="Sets progress selector" class="pull-right" src="/static/app/images/help/SPS.png"/>
+    <p>The Match Filters under the SST works for current modelled situation like before start of the match. SPS works like additional filter, so it is possible to get non-representative numbers for one or both teams. 
+    There are two posiible situations with score 1-1: from 1-0 (team 1 first advanced) or from 0-1 (team 2 first advanced). These are totally different situations with different stats.</p>
+    {% endblocktrans %}
+</div>
+<div class="help1 list-group-item active">{% blocktrans %}Ideas for analysis{% endblocktrans %}</div>
+<a href="#" class="list-group-item help2" id="gensugg"><h4>{% blocktrans %}General suggestions{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_gensugg">
+    {% blocktrans %}{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="notip"><h4>{% blocktrans %}Not-IP bids{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_notip">
+    {% blocktrans %}{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="firstset"><h4>{% blocktrans %}First set bids{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_firstset">
+    {% blocktrans %}{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="secondset"><h4>{% blocktrans %}Second set bids{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_secondset">
+    {% blocktrans %}{% endblocktrans %}
+</div>
+<a href="#" class="list-group-item help2" id="lastset"><h4>{% blocktrans %}Last set bids{% endblocktrans %}</h4></a>
+<div class="help list-group-item-text" id="c_lastset">
+    {% blocktrans %}{% endblocktrans %}
+</div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(".help").collapse('hide');
+        $(".help2").on("click", function () {
+            $(".help").collapse('hide');
+            $("#c_" + this.id).collapse('show');
+        });
+    </script>
+{% endblock %}

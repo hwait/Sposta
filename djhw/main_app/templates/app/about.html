@@ -2,9 +2,46 @@
 {% load i18n %}
 {% block content %}
 <br/><br/><br/>
-<p>{% blocktrans %}Sposta is a service providing info about price moving for sporting events. You can see historical odds compared with livescores on one graph. {% endblocktrans %}</p>
-<p>{% blocktrans %}Currently we test some trading strategies on the data and soon it will be available to public. {% endblocktrans %}</p>
-<p>{% blocktrans %}Soccer and Basketball matches comes this fall with starting a new season. {% endblocktrans %}</p>
-<p>{% blocktrans %}If you have any question or suggestion please send it <a href="mailto:manager@sposta.top">here</a>   {% endblocktrans %}</p>
-
+<div class="list-group">
+    <div class="list-group-item help2"><h4>{% blocktrans %}What is Sposta?{% endblocktrans %}</h4></div>
+    <div class="help list-group-item-text">
+        {% blocktrans %}Sposta is a service providing information about price moving for sporting events, sports analytics and predictions from our users. You can sign up and make your suggestions about upcoming matches, create ideas for wagers and trading. Users can subscribe on your product via Telegram and get it in time.{% endblocktrans %}
+    </div>
+    <div class="list-group-item help2"><h4>{% blocktrans %}What is already realized?{% endblocktrans %}</h4></div>
+    <div class="help list-group-item-text">{% blocktrans %}
+        <strong>Tennis Data</strong></p>
+        <p>Now Sposta works to collect tennis data. There are four sources of data:</p>
+        <ul>
+            <li>Historical results of tennis matches for last 3 years;</li>
+            <li>Average and max odds from Oddsportal.com;</li>
+            <li>Non-Inplay and Inplay odds from Betfair;</li>
+            <li>Livescores data.</li>
+        </ul>
+        <p>The odds data is combined with livescores and presented in graph view. The players statistic from historical results is shown in table view. 
+        There are fresh matches are shown only but collected info stores in our offline Lab database.</p>
+        <p><strong>Users</strong></p>
+        <p>You can Sign-In and set your timezone and language in the user settings. </p>
+        <p><strong>Languages</strong></p>
+        <p>There are English and Russian languages available via User settings. Players names are not translated and I am not sure I'll do translate them.{% endblocktrans %}</p>
+    </div>
+    <div class="list-group-item help2"><h4>{% blocktrans %}Future plans.{% endblocktrans %}</h4></div>
+    <div class="help list-group-item-text">{% blocktrans %}
+        <p><strong>Wagers and Trades (WT)</strong></p>
+        <p>Any User can make own suggestions about upcoming matches. Those suggestions can be just comments or WT. When match results will be available, WT grades and current User profit/loss calculates. </p>
+        <p><strong>Users Statistics</strong></p>
+        <p>Any User with WT has own statistic with profit/loss calculation, ROI and so on. Those Users are shown in Results Comparison Chart.</p>
+        <p><strong>Paid services</strong></p>
+        <p>User can mark any of his ot her sugestions as Premium, so only Premium Users can see them before match completes. </p>
+        <p><strong>Subscription</strong></p>
+        <p>Any User (Customer) can subcribe on suggestions from another User (Provider). To get Premium content Customer should buy a Subscription Plan from a Provider. Suggestions can be delivered via site, email and Telegram service.</p>
+        <p><strong>Guarantees</strong></p>
+        <p>Provider can give any guarantees on his suggestions. If the contract is violated, Sposta is a third party in the dispute.  Customer can drop contract at any time. In this case the rest of the money must be returned to Customer. The mechanism for the return of funds must be carefully worked out.</p>
+        <p><strong>Other Sports</strong></p>
+        <p>Autumn, 2017 I plan to start collect Soccer and Basketball data. </p>{% endblocktrans %}
+    </div>
+    <div class="list-group-item help2"><h4>{% trans "Contacts" %}</h4></div>
+    <div class="help list-group-item-text">
+        {% blocktrans %}If you have any question or suggestion please send it <a href="mailto:manager@sposta.top">here{% endblocktrans %}</a>   
+    </div>
+</div>
 {% endblock %}

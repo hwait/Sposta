@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^accounts/profile/', UserProfile.as_view(), name='userprofile'),
     url(r'^accounts/login/', JointLoginSignupView.as_view(), name='account_login'),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^contact$', main_app.views.contact, name='contact'),
+    url(r'^help', main_app.views.help, name='help'),
     url(r'^about', main_app.views.about, name='about'),
     #url(r'^login/$',
     #    django.contrib.auth.views.login,

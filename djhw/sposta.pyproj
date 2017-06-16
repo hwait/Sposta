@@ -128,6 +128,7 @@
     <Folder Include="main_app\" />
     <Folder Include="main_app\migrations\" />
     <Folder Include="main_app\middleware\" />
+    <Folder Include="main_app\static\app\images\help\" />
     <Folder Include="main_app\templatetags\" />
     <Folder Include="main_app\static\" />
     <Folder Include="main_app\static\app\" />
@@ -189,6 +190,7 @@
     <Content Include="main_app\templates\account\signup_closed.html" />
     <Content Include="main_app\templates\account\verification_sent.html" />
     <Content Include="main_app\templates\account\verified_email_required.html" />
+    <Content Include="main_app\templates\app\help.html" />
     <Content Include="main_app\templates\app\userprofile.html" />
     <Content Include="oddsportal\templates\op_all.html" />
     <Content Include="oddsportal\templates\op_champ.html" />

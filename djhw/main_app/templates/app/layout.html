@@ -28,14 +28,16 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav ">
                 <li {% ifequal currentpage 'Tennis' %}class="active"{% endifequal%}><a href="{% url 'maininspect' %}"><span class="glyphicon glyphicon-asterisk"></span> {% trans "Tennis" %}</a></li>
-                {% if request.user|ismember:'Staff' %}
+                {% if request.user.is_staff %}
                 <li {% ifequal currentpage 'BF' %}class="active"{% endifequal%}><a href="{% url 'bfinspect' %}">BF</a></li>
                 <li {% ifequal currentpage 'LS' %}class="active"{% endifequal%}><a href="{% url 'lsinspect' %}">LS</a></li>
                 <li {% ifequal currentpage 'OP' %}class="active"{% endifequal%}><a href="{% url 'opinspect' %}">OP</a></li>
                 <li {% ifequal currentpage 'Stats' %}class="active"{% endifequal%}><a href="{% url 'stats' %}">Stats</a></li>
                 {% endif %}
-                
-                <li {% ifequal currentpage 'About' %}class="active"{% endifequal%}><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span> {% trans "About" %}</a></li{%>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li {% ifequal currentpage 'About' %}class="active"{% endifequal%} title="About"><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span></a></li>
+                <li {% ifequal currentpage 'Help' %}class="active"{% endifequal%} title="Help"><a href="{% url 'help' %}"><span class="glyphicon glyphicon-question-sign"></span></a></li>
             </ul>
             {% include 'app/loginpartial.html' %}
         </div>
