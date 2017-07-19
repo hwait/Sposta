@@ -86,10 +86,10 @@ class MainInspect(View):
                             except:
                                 opchanges=OPOdds.objects.filter(ev=opev).order_by('dtc')
                             xrop=[i.dtc_tz for i in opchanges]
-                            y1rop=[i.w1 for i in opchanges]
-                            y2rop=[i.w2 for i in opchanges]
-                            y1ropm=[i.w1max for i in opchanges]
-                            y2ropm=[i.w2max for i in opchanges]
+                            y1rop=[i.w1 for i in opchanges] if opev.reversed==0 else [i.w2 for i in opchanges]
+                            y2rop=[i.w2 for i in opchanges] if opev.reversed==0 else [i.w1 for i in opchanges]
+                            y1ropm=[i.w1max for i in opchanges] if opev.reversed==0 else [i.w2max for i in opchanges]
+                            y2ropm=[i.w2max for i in opchanges] if opev.reversed==0 else [i.w1max for i in opchanges]
                 ts=None
                 te=None
                 gameshapes=[]

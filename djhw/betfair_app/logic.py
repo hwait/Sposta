@@ -47,7 +47,7 @@ class BFCommand(BaseCommand):
         markets = client.list_market_catalogue(
             MarketFilter(event_type_ids=[tennis_event_type], market_type_codes=["MATCH_ODDS"], in_play_only=is_ip),
                             market_projection=["EVENT", "RUNNER_METADATA","COMPETITION"],
-                            max_results=1000)
+                            max_results=200)
         mids=[m.market_id for m in markets]
         mids_portions = [mids[x:x+40] for x in xrange(0, len(mids), 40)]
         for mp in mids_portions:

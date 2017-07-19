@@ -35,11 +35,13 @@
                 <li {% ifequal currentpage 'Stats' %}class="active"{% endifequal%}><a href="{% url 'stats' %}">Stats</a></li>
                 {% endif %}
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
                 <li {% ifequal currentpage 'About' %}class="active"{% endifequal%} title="About"><a href="{% url 'about' %}"><span class="glyphicon glyphicon-info-sign"></span></a></li>
                 <li {% ifequal currentpage 'Help' %}class="active"{% endifequal%} title="Help"><a href="{% url 'help' %}"><span class="glyphicon glyphicon-question-sign"></span></a></li>
             </ul>
+            
             {% include 'app/loginpartial.html' %}
+
         </div>
     </div>
 </nav>
